@@ -1,0 +1,43 @@
+.document{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 10px;
+    font-size: .8em;
+    width: 100%;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+   
+    
+}
+.section-cx h2{
+    background-color: rgb(201, 200, 200);
+}
+.document-title{
+    line-height: 1em;
+    text-align: center;
+    text-decoration: underline;
+}
+.pdf-income-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.pdf-income-item p{
+    display: flex;
+}
+.pdf-download-btn{
+    border: none;
+    background-color: var(--Primary);
+    color: white;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.4em;
+    border-radius: 5px;
+    margin-top: 70px;
+}
