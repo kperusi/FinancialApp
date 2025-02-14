@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import "./dashboardstyles/dashboardstyles.css";
-import Calender from "../calender/Calender";
 import { db, auth } from "../firebase/firebase";
 import {
   arrayUnion,

@@ -14,10 +14,12 @@ export default function Report() {
   const [loginUserDetail, setLoginUserDetail] = useState();
   const [title, setTitle] = useState("");
   const [month, setMonth] = useState("");
+  const [user,setUser]=useState({});
   const [form, setForm] = useState({
     title:
       "Third Quarter Financial Report Presented to the Executive Members of Ebenezer Baptist Church, Enerhen",
     month: "",
+    name:user?.displayName
     //  new Date(Date.now()).toLocaleDateString("en-US", { month: "long" }),
   });
   const [incomeByMonth, setIncomeByMonth] = useState([]);
@@ -33,7 +35,9 @@ export default function Report() {
   const [transportExpenses, setTransportExpenses] = useState([]);
   const [sanitationExpenses, setSanitationExpenses] = useState([]);
   const [departmentExpenses, setDepartmentExpenses] = useState([{}]);
+ 
   const [monthError, setMonthError] = useState("");
+  const [nameError, setNameError] = useState('')
   const [display, setDisplay] = useState("hide");
   const navigate = useNavigate();
 
@@ -43,28 +47,22 @@ export default function Report() {
     if (e.target.name === "month") {
       setMonthError("");
     }
+    if (e.target.name === "name") {
+      setNameError("");
+    }
   };
 
   useEffect(() => {
     const storedIncome = JSON.parse(localStorage.getItem("incomes")) || [];
     const storedExpense = JSON.parse(localStorage.getItem("expenses")) || [];
-
-    // const storedUserDetails =
-    //   JSON.parse(localStorage.getItem("loginUserDetails")) || null;
-    // Update state with retrieved values
-
+    const storedUser =
+    JSON.parse(localStorage.getItem("ebcfinance-user")) || null;
+  
     setIncomes(storedIncome);
     setExpenses(storedExpense);
+    setUser(storedUser);
 
-    // const thisMonthIncome = incomes.filter(function (item) {
-
-    //   return item.month === form.month;
-    // });
-
-    // setLoginUserDetail(storedUserDetails);
-    // setIncomeByMonth(thisMonthIncome)
-
-    // setExpensesByMonth();
+    
 
     const thisMonthIncome = incomes.filter(function (item) {
       return item.month === form.month;
@@ -90,12 +88,13 @@ export default function Report() {
   }, [form.month]);
 
   const handlePreviewReport = () => {
-    if (form.month === "") {
+    if (form.month === "" || form.name === "")  {
       setMonthError("Please select month");
+      setNameError("Please Enter Your Name");
       return;
     }
-    console.log(form.month);
 
+   
     const filterExpensesByName = (name) =>
       expensesByMonth?.filter((item) => item?.expensesCategory === name);
     setElectricalExpenses(filterExpensesByName("Electrical Department"));
@@ -120,12 +119,10 @@ export default function Report() {
       setDisplay("hide");
     }
   };
-  // console.log(expensesByMonth)
+  console.log(user);
 
-  // console.log(incomeByMonth);
-  // console.log(form.month)
   console.log(departmentExpenses);
-  console.log(display);
+  // console.log(display);
   return (
     <main className="main-report">
       <div style={{ display: "flex", gap: "50px", padding: "5px 10px" }}>
@@ -173,6 +170,19 @@ export default function Report() {
           <p style={{ color: "red" }}>{monthError}</p>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="name">Enter Name</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Presented by"
+            value={form.name}
+            onInput={(e) => {
+              handleSetForm(e);
+            }}
+          ></input>
+           <p style={{ color: "red" }}>{nameError}</p>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <label htmlFor="title">Enter Title</label>
           <textarea
             name="title"
@@ -184,18 +194,7 @@ export default function Report() {
           ></textarea>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label htmlFor="name">Enter Title</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Presented by"
-            value={form.name}
-            onInput={(e) => {
-              handleSetForm(e);
-            }}
-          ></input>
-        </div>
+   
       </form>
 
       <section className={`${display} pdf-preview-cx`}>

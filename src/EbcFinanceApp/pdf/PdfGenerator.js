@@ -11,9 +11,10 @@ export default function PdfGenerator({
   electricalExpenses,
   counterExpenses,
   buildingExpenses,
-  setDisplay
+  setDisplay,
 }) {
   const contentRef = useRef(); // Reference for the content to be captured
+  const incomeRef = useRef(); // Reference for the income
   const currentDate = new Date("01/01/2025");
   const navigate = useNavigate();
   let currentMonthName = currentDate.toLocaleDateString("en-US", {
@@ -31,15 +32,33 @@ export default function PdfGenerator({
     const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
 
     pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
-    pdf.save(`Ebc Financial Report for ${form.month}`); // Download the PDF
+    pdf.save(`Ebc Financial Report for ${form.month}-- page2`); // Download the PDF
+  };
+
+  const generateIncomeReport = async () => {
+    const content = incomeRef.current;
+    const canvas = await html2canvas(content);
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("p", "mm", "a4"); // Create a new A4 PDF
+    const imgWidth = 190; // Adjust for margins
+    const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+    pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+    pdf.save(`Ebc Financial Report for ${form.month} --page 1`);
   };
   //  console.log(incomes)
+
+  const downloadPdf = () => {
+    generatePDF();
+    generateIncomeReport();
+  };
 
   return (
     <main className="document">
       <span
         onClick={() => {
-          setDisplay('hide')
+          setDisplay("hide");
         }}
       >
         <svg
@@ -57,7 +76,34 @@ export default function PdfGenerator({
         ref={contentRef}
         className=" main bg-white p-4 border rounded shadow-md"
       >
-        <h2 className="document-title text-xl font-bold">{form.title}</h2>
+        <section
+          ref={incomeRef}
+          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+        >
+          <div style={{display:'flex',
+            flexDirection:'column',alignItems:'center',marginBottom:'10px'
+          }}>
+            <h2 className="document-title text-xl font-bold">{form.title}</h2>
+            <h2 className="document-title">Presented by {form.name}</h2>
+          </div>
+
+          <section className="section-cx">
+            <h2>Income</h2>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h3 style={{ width: "60%" }}>Description</h3>
+              <hr></hr>
+              <h3>Amount (N)</h3>
+            </div>
+            <hr />
+            {incomes?.map((income) => (
+              <div key={income?.id} className="pdf-income-item">
+                <h3>{income?.incomeSource}</h3>
+                <p>{income?.amount}</p>
+              </div>
+            ))}
+          </section>
+        </section>
+        {/* <h2 className="document-title text-xl font-bold">{form.title}</h2>
         <section className="section-cx">
           <h2>Income</h2>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -72,7 +118,7 @@ export default function PdfGenerator({
               <p>{income?.amount}</p>
             </div>
           ))}
-        </section>
+        </section> */}
 
         <section className="section-cx">
           <h2>Electrical Department Expenses</h2>
@@ -111,7 +157,7 @@ export default function PdfGenerator({
         </section>
       </div>
 
-      <button onClick={generatePDF} className="pdf-download-btn">
+      <button onClick={downloadPdf} className="pdf-download-btn">
         Download PDF
       </button>
     </main>
