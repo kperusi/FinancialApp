@@ -31,7 +31,7 @@ export default function PdfGenerator({
     const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
 
     pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
-    pdf.save("generated.pdf"); // Download the PDF
+    pdf.save(`Ebc Financial Report for ${form.month}`); // Download the PDF
   };
   //  console.log(incomes)
 

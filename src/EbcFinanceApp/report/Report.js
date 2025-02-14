@@ -37,10 +37,6 @@ export default function Report() {
   const [display, setDisplay] = useState("hide");
   const navigate = useNavigate();
 
-
-
- 
-
   const handleSetForm = (e) => {
     // e.preventDefault();
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -203,7 +199,7 @@ export default function Report() {
       </form>
 
       <section className={`${display} pdf-preview-cx`}>
-        {/* <PdfGenerator
+        <PdfGenerator
           incomes={incomeByMonth}
           form={form}
           expenses={expensesByMonth}
@@ -211,19 +207,20 @@ export default function Report() {
           buildingExpenses={buildingExpenses}
           counterExpenses={counterExpenses}
           setDisplay={setDisplay}
-        /> */}
-
-        <MyDocument
-          counterExpenses={counterExpenses}
-          buildingExpenses={buildingExpenses}
-          electricalExpenses={electricalExpenses}
-          income={incomeByMonth}
-          form={form}
-          setDisplay={setDisplay}
-          handleSetDisplay={handleSetDisplay}
         />
+        {/* <PDFViewer width='100%' height='100%'>
+          <MyDocument
+            counterExpenses={counterExpenses}
+            buildingExpenses={buildingExpenses}
+            electricalExpenses={electricalExpenses}
+            income={incomeByMonth}
+            form={form}
+            setDisplay={setDisplay}
+            handleSetDisplay={handleSetDisplay}
+          />
+        </PDFViewer> */}
 
-        <div>
+        {/* <div>
           <PDFDownloadLink
             document={
               <MyDocument
@@ -238,9 +235,9 @@ export default function Report() {
           >
             download
           </PDFDownloadLink>
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <PDFDownloadLink
             document={
               <MyDocument
@@ -257,7 +254,7 @@ export default function Report() {
               loading ? "Loading document..." : "Download now!"
             }
           </PDFDownloadLink>
-        </div>
+        </div> */}
       </section>
 
       <button onClick={handlePreviewReport} className="pdf-preview-btn">

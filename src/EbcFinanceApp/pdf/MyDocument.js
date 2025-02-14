@@ -1,7 +1,51 @@
-import { Document, Page, View, Text } from "@react-pdf/renderer";
+import { Document, Page, View, Text,StyleSheet } from "@react-pdf/renderer";
 import React from "react";
 
-
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'column',
+    backgroundColor: '#ffffff',
+    padding: 30
+  },
+  section: {
+    margin: 10,
+    padding: 10,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  table: {
+    display: 'table',
+    width: 'auto',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRightWidth: 0,
+    borderBottomWidth: 0
+  },
+  tableRow: {
+    margin: 'auto',
+    flexDirection: 'row'
+  },
+  tableCol: {
+    width: '25%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0
+  },
+  tableHeader: {
+    backgroundColor: '#f0f0f0',
+    padding: 5,
+    fontSize: 12,
+    fontWeight: 'bold'
+  },
+  tableCell: {
+    margin: 5,
+    fontSize: 10
+  }
+});
 const MyDocument = ({ income,setDisplay,form,
   expenses,
   electricalExpenses,
@@ -12,7 +56,7 @@ handleSetDisplay
 
 
   <Document style={{display:'flex',flexDirection:'column',gap:'10px',}}>
-    <Page  style={{display:'flex',flexDirection:'column',gap:'10px',width:'100%',padding:'20px'}}>
+    <Page size='A4' style={{display:'flex',flexDirection:'column',gap:'10px',width:'100%',padding:'20px'}}>
     <View style={{display:'flex',flexDirection:'column',}}
         onClick={() => {
           handleSetDisplay()
