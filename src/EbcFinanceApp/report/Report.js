@@ -174,7 +174,7 @@ export default function Report() {
           <input
             type="text"
             name="name"
-            placeholder="Presented by"
+            placeholder="Presented by:Name"
             value={form.name}
             onInput={(e) => {
               handleSetForm(e);
