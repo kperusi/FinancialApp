@@ -237,24 +237,7 @@ export default function Report() {
           </PDFDownloadLink>
         </div> */}
 
-        {/* <div>
-          <PDFDownloadLink
-            document={
-              <MyDocument
-                counterExpenses={counterExpenses}
-                electricalExpenses={electricalExpenses}
-                buildingExpenses={buildingExpenses}
-                income={incomeByMonth}
-                form={form}
-              />
-            }
-            fileName="somename.pdf"
-          >
-            {({ blob, url, loading, error }) =>
-              loading ? "Loading document..." : "Download now!"
-            }
-          </PDFDownloadLink>
-        </div> */}
+    
       </section>
 
       <button onClick={handlePreviewReport} className="pdf-preview-btn">
