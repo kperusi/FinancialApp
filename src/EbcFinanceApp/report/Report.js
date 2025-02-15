@@ -217,26 +217,7 @@ export default function Report() {
             setDisplay={setDisplay}
             handleSetDisplay={handleSetDisplay}
           />
-        </PDFViewer> */}
-
-        {/* <div>
-          <PDFDownloadLink
-            document={
-              <MyDocument
-                counterExpenses={counterExpenses}
-                electricalExpenses={electricalExpenses}
-                buildingExpenses={buildingExpenses}
-                income={incomeByMonth}
-                form={form}
-              />
-            }
-            fileName={`report for ${form.month}`}
-          >
-            download
-          </PDFDownloadLink>
-        </div> */}
-
-    
+        </PDFViewer> */}    
       </section>
 
       <button onClick={handlePreviewReport} className="pdf-preview-btn">
