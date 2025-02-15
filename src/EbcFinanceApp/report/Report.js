@@ -223,9 +223,7 @@ export default function Report() {
       <button onClick={handlePreviewReport} className="pdf-preview-btn">
         Preview
       </button>
-      {/* <button onClick={handlePreviewReport} className="pdf-preview-btn">
-        Download
-      </button> */}
+    
     </main>
   );
 }
