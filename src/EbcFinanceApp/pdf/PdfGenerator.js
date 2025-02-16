@@ -71,12 +71,7 @@ export default function PdfGenerator({
           <path d="M360-240 120-480l240-240 56 56-144 144h568v80H272l144 144-56 56Z" />
         </svg>
       </span>
-
-      <div
-        ref={contentRef}
-        className=" main bg-white p-4 border rounded shadow-md"
-      >
-        <section
+      <section
           ref={incomeRef}
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
         >
@@ -89,7 +84,7 @@ export default function PdfGenerator({
 
           <section className="section-cx">
             <h2>Income</h2>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", justifyContent: "space-between" ,}}>
               <h3 style={{ width: "60%" }}>Description</h3>
               <hr></hr>
               <h3>Amount (N)</h3>
@@ -103,6 +98,11 @@ export default function PdfGenerator({
             ))}
           </section>
         </section>
+      <div
+        ref={contentRef}
+        className=" main bg-white p-4 border rounded shadow-md"
+      >
+       
         {/* <h2 className="document-title text-xl font-bold">{form.title}</h2>
         <section className="section-cx">
           <h2>Income</h2>
