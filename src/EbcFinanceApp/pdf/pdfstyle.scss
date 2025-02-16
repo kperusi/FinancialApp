@@ -17,7 +17,7 @@
     background-color: rgb(201, 200, 200);
 }
 .document-title{
-    line-height: 1em;
+    line-height: 1.2em;
     text-align: center;
     text-decoration: underline;
 }
@@ -41,4 +41,13 @@
     font-size: 1.4em;
     border-radius: 5px;
     margin-top: 70px;
+}
+.document-total-income{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.document-total-income-amount{
+    border-bottom: solid;
+    border-top: solid;
 }

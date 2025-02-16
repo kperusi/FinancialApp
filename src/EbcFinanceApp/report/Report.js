@@ -17,15 +17,14 @@ export default function Report() {
   const [user,setUser]=useState({});
   const [form, setForm] = useState({
     title:
-      "Third Quarter Financial Report Presented to the Executive Members of Ebenezer Baptist Church, Enerhen",
+      "Monthly Financial Report Presented to the Executive Members of Ebenezer Baptist Church, Enerhen",
     month: "",
-    name:user?.displayName
+    name:''
     //  new Date(Date.now()).toLocaleDateString("en-US", { month: "long" }),
   });
   const [incomeByMonth, setIncomeByMonth] = useState([]);
   const [expensesByMonth, setExpensesByMonth] = useState([]);
   const [electricalExpenses, setElectricalExpenses] = useState([]);
-  const [GeneratorExpenses, setGeneratorExpenses] = useState([]);
   const [soundExpenses, setSoundExpenses] = useState([]);
   const [buildingExpenses, setBuildingExpenses] = useState([]);
   const [counterExpenses, setCounterExpenses] = useState([]);
@@ -34,6 +33,11 @@ export default function Report() {
   const [musicExpenses, setMusicExpenses] = useState([]);
   const [transportExpenses, setTransportExpenses] = useState([]);
   const [sanitationExpenses, setSanitationExpenses] = useState([]);
+  const [generatorExpenses, setGeneratorExpenses] = useState([]);
+  const [dues,setDues]=useState([]);
+  const [finance_stewardships,setFinance_stewardships] = useState([]);
+  const [decorationExpenses,setDecorationExpenses] = useState([]);
+  const [healthExpenses,setHealthExpenses] = useState([]);
   const [departmentExpenses, setDepartmentExpenses] = useState([{}]);
  
   const [monthError, setMonthError] = useState("");
@@ -85,13 +89,19 @@ export default function Report() {
     setTotalIncome(totalIncome);
     setTotalExpenses(totalExpenses);
     setTotalBalance(totalIncome - totalExpenses);
+    setForm({...form,name:user?.displayName})
   }, [form.month]);
 
   const handlePreviewReport = () => {
-    if (form.month === "" || form.name === "")  {
+    if (form.month === "" )  {
       setMonthError("Please select month");
-      setNameError("Please Enter Your Name");
+   
       return;
+    }
+
+    if (form.name === "")  {
+     setForm({...form,name:user?.displayName})
+    
     }
 
    
@@ -100,6 +110,17 @@ export default function Report() {
     setElectricalExpenses(filterExpensesByName("Electrical Department"));
     setBuildingExpenses(filterExpensesByName("Building Committee")); //
     setCounterExpenses(filterExpensesByName("Counter Committee")); //
+    setMediaExpenses(filterExpensesByName("Media Department")); //
+    setPublicityExpenses(filterExpensesByName("Publicity Committee")); //
+    setMusicExpenses(filterExpensesByName("Music Department")); //
+    setTransportExpenses(filterExpensesByName("Transport Committee")); //
+    setSanitationExpenses(filterExpensesByName("Sanitation Committee")); //
+    setSoundExpenses(filterExpensesByName("Sound Department")); //
+    setHealthExpenses(filterExpensesByName("Health Department")); //
+    setFinance_stewardships(filterExpensesByName("Finance Stewardships Committee")); //
+    setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
+    setGeneratorExpenses(filterExpensesByName("Generator Department")); //
+    setDues(filterExpensesByName("Dues Committee")); //
 
     setDepartmentExpenses({
       electricalExp: filterExpensesByName("Electrical Department"),
@@ -119,9 +140,9 @@ export default function Report() {
       setDisplay("hide");
     }
   };
-  console.log(user);
+  console.log(form.name);
 
-  console.log(departmentExpenses);
+  console.log(user?.displayName);
   // console.log(display);
   return (
     <main className="main-report">
@@ -174,7 +195,7 @@ export default function Report() {
           <input
             type="text"
             name="name"
-            placeholder="Presented by:Name"
+            placeholder="Presented by"
             value={form.name}
             onInput={(e) => {
               handleSetForm(e);
@@ -205,6 +226,22 @@ export default function Report() {
           electricalExpenses={electricalExpenses}
           buildingExpenses={buildingExpenses}
           counterExpenses={counterExpenses}
+          mediaExpenses={mediaExpenses}
+          publicityExpenses={publicityExpenses}
+          musicExpenses={musicExpenses}
+          transportExpenses={transportExpenses}
+          sanitationExpenses={sanitationExpenses}
+          soundExpenses={soundExpenses}
+          healthExpenses={healthExpenses}
+          finance_stewardships={finance_stewardships}
+          decorationExpenses={decorationExpenses}
+          generatorExpenses={generatorExpenses}
+          dues={dues}
+          departmentExpenses={departmentExpenses}
+          totalIncome={totalIncome}
+          totalExpenses={totalExpenses}
+          totalBalance={totalBalance}
+          
           setDisplay={setDisplay}
         />
         {/* <PDFViewer width='100%' height='100%'>
