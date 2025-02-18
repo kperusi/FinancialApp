@@ -32,38 +32,35 @@ export default function Dashboard() {
   const [id, setId] = useState();
   const [userRole, setUserRole] = useState();
   const [loginUserDetail, setLoginUserDetail] = useState({});
-const [mouseEnter,setMouseEnter] = useState('')
+  const [mouseEnter, setMouseEnter] = useState("");
+
   useEffect(() => {
+    // try {
+    //   const loginUserDetailsRef = collection(db, "users");
+    //   const q = query(loginUserDetailsRef);
+    //   onSnapshot(q, (snapshot) => {
+    //     const loginUsersDetails = snapshot.docs.map((doc) => ({
+    //       id: doc.id,
+    //       ...doc.data(),
+    //     }));
+    //     setLoading(false);
 
-    try {
-      const loginUserDetailsRef = collection(db, "users");
-      const q = query(loginUserDetailsRef);
-      onSnapshot(q, (snapshot) => {
-        const loginUsersDetails = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setLoading(false);
-       
+    //     const fetchLoginUser = loginUsersDetails.find(
+    //       (_user) => _user?.id === user?.uid
+    //     );
 
-        const fetchLoginUser = loginUsersDetails.find(
-          (_user) => _user?.id === user?.uid
-        );
+    //     if (fetchLoginUser) {
+    //       localStorage.setItem(
+    //         "loginUserDetails",
+    //         JSON.stringify(fetchLoginUser)
+    //       );
+    //     }
 
-        if(fetchLoginUser){
-
-          localStorage.setItem(
-            "loginUserDetails",
-            JSON.stringify(fetchLoginUser)
-          );
-        }
-       
-
-        // setLoginUserDetail(fetchLoginUser);
-      });
-    } catch (error) {
-      setError(error);
-    }
+    //     // setLoginUserDetail(fetchLoginUser);
+    //   });
+    // } catch (error) {
+    //   setError(error);
+    // }
 
     try {
       const expensesRef = collection(db, "Expenses");
@@ -111,33 +108,31 @@ const [mouseEnter,setMouseEnter] = useState('')
   }, [id]);
 
   useEffect(() => {
-  
-      const storedIncome = JSON.parse(localStorage.getItem("incomes")) || [];
-      const storedExpense = JSON.parse(localStorage.getItem("expenses")) || [];
-      const storedUser =
-        JSON.parse(localStorage.getItem("ebcfinance-user")) || null;
-      const storedUserDetails =
-        JSON.parse(localStorage.getItem("loginUserDetails")) || null;
-      // Update state with retrieved values
-      console.log(storedUserDetails);
-      setIncomes(storedIncome);
-      setExpenses(storedExpense);
-      setLoginUserDetail(storedUserDetails);
-      setId(storedUser.uid);
-      setUser(storedUser);
-      const totalExpenses = storedExpense.reduce(
-        (sum, each) => sum + (each?.amount || 0),
-        0
-      );
-      const totalIncome = storedIncome.reduce(
-        (sum, each) => sum + (each?.amount || 0),
-        0
-      );
-      setTotalIncome(totalIncome);
-      setTotalExpenses(totalExpenses);
-      setTotalBalance(totalIncome - totalExpenses);
-   
-  }, []);
+    const storedIncome = JSON.parse(localStorage.getItem("incomes")) || [];
+    const storedExpense = JSON.parse(localStorage.getItem("expenses")) || [];
+    const storedUser =
+      JSON.parse(localStorage.getItem("ebcfinance-user")) || null;
+    const storedUserDetails =
+      JSON.parse(localStorage.getItem("loginUserDetails")) || null;
+    // Update state with retrieved values
+    console.log(storedUserDetails);
+    setIncomes(storedIncome);
+    setExpenses(storedExpense);
+    setLoginUserDetail(storedUserDetails);
+    setId(storedUser.uid);
+    setUser(storedUser);
+    const totalExpenses = storedExpense.reduce(
+      (sum, each) => sum + (each?.amount || 0),
+      0
+    );
+    const totalIncome = storedIncome.reduce(
+      (sum, each) => sum + (each?.amount || 0),
+      0
+    );
+    setTotalIncome(totalIncome);
+    setTotalExpenses(totalExpenses);
+    setTotalBalance(totalIncome - totalExpenses);
+  }, [user]);
 
   console.log(loginUserDetail?.role);
 
@@ -150,22 +145,27 @@ const [mouseEnter,setMouseEnter] = useState('')
     window.location.href = "/ebcfinance-login";
   };
 
-const handleMouseEnter = () => {
-  if(mouseEnter===''){
-    setMouseEnter('mouseEnter')
-  }else{
-    setMouseEnter('')
-  }
-}
+  const handleMouseEnter = () => {
+    if (mouseEnter === "") {
+      setMouseEnter("mouseEnter");
+    } else {
+      setMouseEnter("");
+    }
+  };
 
   return (
     <main className="content-main">
       <section className="dashboard-title">
         <h3>{user?.displayName}</h3>
-        <button onClick={handleLogout} className="logout">Logout</button>
+        <button onClick={handleLogout} className="logout">
+          Logout
+        </button>
       </section>
       {loginUserDetail?.role === "admin" && (
-        <section className={`dashboard-add-transaction-cx ${mouseEnter}` }onMouseEnter={handleMouseEnter}>
+        <section
+          className={`dashboard-add-transaction-cx ${mouseEnter}`}
+          onMouseEnter={handleMouseEnter}
+        >
           {/* <div className="navbar-item-cx"> */}
           <NavLink to="/ebcfinance/addtransactions" className="navlink">
             <svg
@@ -237,7 +237,7 @@ const handleMouseEnter = () => {
               {totalIncome}
             </h3>
           </div>
-          <hr/>
+          <hr />
           <div className="dashboard-section-one-income">
             <h5 style={{ color: "#e7e5e5" }}>Expenses</h5>
             <h3 style={{ display: "flex", alignItems: "center" }}>
