@@ -34,7 +34,7 @@
   display: block;
   width: 70%;
   height: 1px;
-  background-color: #fc15ca;
+  background-color: white;
   margin-bottom: 9px;
 }
 
@@ -43,8 +43,14 @@
   display: block;
 }
 
+.layout-logo {
+  display: flex;
+  width: 100%;
+  gap: 50px;
+}
+
 .layout-logo svg {
-  fill: #fc15ca !important;
+  fill: white !important;
 }
 
 .navbar-item-cx span {
@@ -146,17 +152,6 @@ textarea {
   height: 80px;
 }
 
-.add-btn {
-  height: 50px;
-  border-radius: 5px;
-  background-color: var(--Primary);
-  color: lightblue;
-  outline: none;
-  border: none;
-  font-size: 1.1em;
-  margin-top: 30px;
-}
-
 .error {
   color: red;
   text-align: right;
@@ -215,4 +210,83 @@ input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
           appearance: none;
   margin: 0;
+}
+
+.trx-save-btn-cx {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+  background-color: var(--Primary);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+.add-btn {
+  height: 45px;
+  background-color: transparent;
+  color: lightblue;
+  outline: none;
+  border: none;
+  font-size: 1.1em;
+  width: 100%;
+}
+
+.trx-loading {
+  display: flex;
+  flex-direction: row;
+  height: 9px;
+  background-color: white;
+  width: 97%;
+  align-self: center;
+  border-radius: 5px;
+  border: solid 1px var(--Primary);
+}
+
+.trx-loading span {
+  height: 100%;
+  background-color: var(--Primary);
+  width: 20%;
+  animation-name: motionLoading;
+  animation-duration: 3s;
+  transition: all ease-in;
+  animation-iteration-count: infinite;
+  border-radius: 5px;
+}
+
+@keyframes motionLoading {
+  from {
+    margin-left: 0px;
+  }
+  to {
+    margin-left: 80%;
+  }
+}
+.confirmation-cx {
+  position: absolute;
+  top: 0px;
+  height: 100vh;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+}
+
+.confirmation {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  gap: 40px;
+  padding-top: 80px;
+}
+
+.confirmation button {
+  width: 100%;
+  padding: 20px;
+  font-size: 1.3em;
+  background-color: white;
+  color: var(--Primary);
+  border-radius: 5px;
+  border: none;
 }/*# sourceMappingURL=transactionstyles.css.map */

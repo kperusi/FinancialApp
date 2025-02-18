@@ -19,7 +19,7 @@ export default function TransactionLayout() {
   return (
     <main className="layout">
       <section className="layout-nav-cx">
-        <div className="layout-logo row">
+        <div className="layout-logo">
         <span
             onClick={() => {
               navigate("/ebcfinance/views");
@@ -27,9 +27,9 @@ export default function TransactionLayout() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              height="24px"
+              height="29px"
               viewBox="0 -960 960 960"
-              width="24px"
+              width="29px"
               fill="#white"
             >
               <path d="M360-240 120-480l240-240 56 56-144 144h568v80H272l144 144-56 56Z" />
@@ -45,7 +45,7 @@ export default function TransactionLayout() {
               <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
             </svg> */}
           </span>
-          <h4 style={{ color: "#fc15ca" }}>Add Transactions</h4>
+          <h4 style={{ color: "white" }}>Add Transactions</h4>
         
         </div>
         <span className="divide"></span>

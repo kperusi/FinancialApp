@@ -123,12 +123,17 @@ function AddExpenses() {
     };
 
     // Check date and update amount if needed
+    // const updatedForm = {
+    //   ...form,
+    // };
+
+    // Check date and update amount if needed
     if (form.date === "") {
-      setDateErrors("Please enter a valid date");
       updatedForm.date = _date;
     }
 
     // Single setState call with all updates
+  
     setForm(updatedForm);
 
     if (form.amount === "") {
@@ -200,6 +205,7 @@ function AddExpenses() {
       desc: "",
       givenBy: "",
       color: "",
+      MOD:''
     });
   };
 
@@ -428,7 +434,26 @@ function AddExpenses() {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          {loading && <h3> adding expenses...</h3>}
+
+          <section className="trx-save-btn-cx">
+           
+
+           <button
+             className="add-btn"
+             onClick={(e) => {
+               handleSubmit(e);
+             }}
+           >
+            {loading? 'Adding Expenses':'Save'}
+           </button>
+           {loading && (
+             <div className="trx-loading">
+               <span></span>
+             </div>
+           )}
+         </section>
+
+          {/* {loading && <h3> adding expenses...</h3>}
           <button
             className="add-btn"
             onClick={(e) => {
@@ -436,7 +461,7 @@ function AddExpenses() {
             }}
           >
             Save
-          </button>
+          </button> */}
         </form>
       </section>
     </main>
