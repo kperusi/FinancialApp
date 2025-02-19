@@ -2,12 +2,15 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+
+  width: 100%;
 }
 .income-main-month-title-cx {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 10px;
+  // padding: 10px;
+ 
 }
 .month-btn-cx {
   display: flex;
@@ -26,6 +29,7 @@
   background-color: lightblue;
   display: flex;
   gap: 10px;
+  padding: 10px;
 }
 .income-main-content {
   display: flex;

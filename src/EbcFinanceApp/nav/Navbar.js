@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./navbarstyles/navbaarstyles.css";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -9,14 +9,46 @@ function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(themeMode);
+  const [select, setSelect] = useState({
+    dashboard: "",
+    income: "",
+    expenses: "",
+    report: "",
+  });
 
-  const handleNavigate = () => {};
+  const handleSelected = (name) => {
+    if (name === "dashboard") {
+      setSelect({ dashboard: "select", income: "", expenses: "", report: "" });
+    }
+
+    if (name === "income") {
+      setSelect({ dashboard: "", income: "select", expenses: "", report: "" });
+    }
+
+    if (name === "expenses") {
+      setSelect({ dashboard: "", income: "", expenses: "select", report: "" });
+    }
+
+    if (name === "report") {
+      setSelect({ dashboard: "", income: "", expenses: "", report: "select" });
+    }
+  };
+
+
+  useEffect(()=>{
+    setSelect({ dashboard: "select", income: "", expenses: "", report: "" });
+  },[])
   return (
     <main className="mainnav">
-    
-      <div className="navbar-item-cx">
-
-        <NavLink to="/ebcfinance/views" className="navlink">
+      <div
+        className={`navbar-item-cx ${select.dashboard}`}
+        onClick={() => handleSelected("dashboard")}
+      >
+        <NavLink
+          to="/ebcfinance/views"
+          className={`navlink `}
+         
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="40px"
@@ -30,7 +62,10 @@ function Navbar() {
         </NavLink>
       </div>
 
-      <div className="navbar-item-cx">
+      <div
+        className={`navbar-item-cx ${select.income}`}
+        onClick={() => handleSelected("income")}
+      >
         <NavLink to="/ebcfinance/views/income" className="navlink">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +80,8 @@ function Navbar() {
         </NavLink>
       </div>
 
-      <div className="navbar-item-cx">
+      <div      className={`navbar-item-cx ${select.expenses}`}
+        onClick={() => handleSelected("expenses")}>
         <NavLink to="expenses" className="navlink">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -72,8 +108,6 @@ function Navbar() {
           </svg>
           <h5>Report</h5>
         </NavLink>
-
-        
       </div>
     </main>
   );
