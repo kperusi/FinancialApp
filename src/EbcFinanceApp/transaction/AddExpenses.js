@@ -18,11 +18,11 @@ function AddExpenses() {
     date: new Date(Date.now()).toISOString().split("T")[0],
     desc: "",
     MOD: "",
-    color: "",
+    color: "#" + Math.floor(Math.random() * 16777215).toString(16),
     givenBy: "",
     expensesCategory: "",
     main: "Expenses",
-    month: "",
+    month: new Date(Date.now()).toLocaleDateString("en-US", { month: "long" }),
     // MOD="Means of Disbursement"
   });
   const [amountErrors, setAmountErrors] = useState("");
@@ -39,24 +39,14 @@ function AddExpenses() {
   const [expense, setExpense] = useState([]);
   const [totalExpenses, setTotalExpenses] = useState();
   const [singleExpenses, setSingleExpenses] = useState({});
+  const [givenByError, setGivenByError] = useState("");
 
   const navigate = useNavigate();
   const { id } = useParams();
 
   let date2 = new Date(Date.now());
-  let currentDate = new Date(Date.now());
-  let currentMonthName = currentDate.toLocaleDateString("en-US", {
-    month: "long",
-  });
 
-  useEffect(() => {
-    set_Date(new Date(Date.now()).toISOString().split("T")[0]);
-    setColor("#" + Math.floor(Math.random() * 16777215).toString(16));
-    const storedUser =
-      JSON.parse(localStorage.getItem("ebcfinance-user")) || null;
-
-    setUser(storedUser);
-  }, []);
+ 
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -72,7 +62,19 @@ function AddExpenses() {
     if (e.target.name === "expensesCategory") {
       setCategoryErrors("");
     }
+    if (e.target.name === "givenBy") {
+      setGivenByError("");
+    }
   };
+
+  useEffect(() => {
+    set_Date(new Date(Date.now()).toISOString().split("T")[0]);
+    // setColor("#" + Math.floor(Math.random() * 16777215).toString(16));
+    const storedUser =
+      JSON.parse(localStorage.getItem("ebcfinance-user")) || null;
+
+    setUser(storedUser);
+  }, [id]);
 
   useEffect(() => {
     const storedExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
@@ -110,57 +112,58 @@ function AddExpenses() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let currentMonthName = currentDate.toLocaleDateString("en-US", {
-      month: "long",
-    });
 
-    setForm({ ...form, color: color, month: currentMonthName });
-
+    console.log(form)
     const updatedForm = {
       ...form,
-      color: color,
-      month: currentMonthName,
     };
 
-    // Check date and update amount if needed
-    // const updatedForm = {
-    //   ...form,
-    // };
-
-    // Check date and update amount if needed
     if (form.date === "") {
       updatedForm.date = _date;
     }
 
     // Single setState call with all updates
-  
+
     setForm(updatedForm);
+    console.log(updatedForm)
 
     if (form.amount === "") {
       setAmountErrors("Please enter a valid amount");
+      return
     }
     if (form.MOD === "") {
       setTypeErrors("Please enter a valid MOF");
+      return
     }
     if (form.desc === "") {
       setDescErrors("Please enter a valid description");
+      return
     }
     if (form.expensesCategory === "") {
       setCategoryErrors("Please select a department");
+      return
     }
+    if (form.givenBy === "") {
+      setGivenByError("Please enter a giver name");
+      return
+    }
+    // if (form.date === "") {
+    //   setDateErrors("Please enter a date");
+    //   return
+    // }
+    // if (
+    //   form.amount === "" ||
+    //   form.MOD === "" ||
+    //   form.desc === "" ||
+    //   form.date === "" ||
+    //   form.expensesCategory === "" ||
+    //   form.givenBy
+    // ) {
+    //   return;
+    // }
 
-    if (
-      form.amount === "" ||
-      form.MOD === "" ||
-      form.desc === "" ||
-      form.date === "" ||
-      form.expensesCategory === "" ||
-      form.amount === ""
-    ) {
-      return;
-    }
     if (!user) {
-      navigate("ebcfinance-login");
+      navigate("/ebcfinance-login");
     } else if (id) {
       setLoading(true);
       console.log("updating");
@@ -197,7 +200,7 @@ function AddExpenses() {
     }
     setLoading(false);
     console.log(form);
-    fetchExpenses();
+    // fetchExpenses();
     setForm({
       expensesCategory: "",
       amount: "",
@@ -205,7 +208,8 @@ function AddExpenses() {
       desc: "",
       givenBy: "",
       color: "",
-      MOD:''
+      MOD: "",
+      month: "",
     });
   };
 
@@ -231,9 +235,9 @@ function AddExpenses() {
       setError(error);
     }
   };
-  console.log(user);
-  console.log(error);
-  console.log(id);
+  // console.log(user);
+  // console.log(error);
+  // console.log(id);
 
   return (
     <main className="addexpenses">
@@ -246,7 +250,7 @@ function AddExpenses() {
                 <h4>{id}</h4>
               </div>
 
-              <button onClick={() => navigate('/ebcfinance/views/expenses')}>
+              <button onClick={() => navigate("/ebcfinance/views/expenses")}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="30px"
@@ -425,7 +429,7 @@ function AddExpenses() {
           </div>
 
           <div className="input-cx income-desc-cx">
-            <label htmlFor="giveBy">Given By</label>
+            <label htmlFor="givenBy">Given By</label>
             <input
               type="text"
               name="givenBy"
@@ -433,25 +437,24 @@ function AddExpenses() {
               value={form.givenBy}
               onChange={(e) => handleChange(e)}
             />
+            <p className="error">{givenByError}</p>
           </div>
 
           <section className="trx-save-btn-cx">
-           
-
-           <button
-             className="add-btn"
-             onClick={(e) => {
-               handleSubmit(e);
-             }}
-           >
-            {loading? 'Adding Expenses':'Save'}
-           </button>
-           {loading && (
-             <div className="trx-loading">
-               <span></span>
-             </div>
-           )}
-         </section>
+            <button
+              className="add-btn"
+              onClick={(e) => {
+                handleSubmit(e);
+              }}
+            >
+              {loading ? "Adding Expenses" : "Save"}
+            </button>
+            {loading && (
+              <div className="trx-loading">
+                <span></span>
+              </div>
+            )}
+          </section>
 
           {/* {loading && <h3> adding expenses...</h3>}
           <button

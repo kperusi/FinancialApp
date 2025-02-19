@@ -14,12 +14,12 @@ export default function Report() {
   const [loginUserDetail, setLoginUserDetail] = useState();
   const [title, setTitle] = useState("");
   const [month, setMonth] = useState("");
-  const [user,setUser]=useState({});
+  const [user, setUser] = useState({});
   const [form, setForm] = useState({
     title:
       "Monthly Financial Report Presented to the Executive Members of Ebenezer Baptist Church, Enerhen",
     month: "",
-    name:''
+    name: "",
     //  new Date(Date.now()).toLocaleDateString("en-US", { month: "long" }),
   });
   const [incomeByMonth, setIncomeByMonth] = useState([]);
@@ -34,14 +34,14 @@ export default function Report() {
   const [transportExpenses, setTransportExpenses] = useState([]);
   const [sanitationExpenses, setSanitationExpenses] = useState([]);
   const [generatorExpenses, setGeneratorExpenses] = useState([]);
-  const [dues,setDues]=useState([]);
-  const [finance_stewardships,setFinance_stewardships] = useState([]);
-  const [decorationExpenses,setDecorationExpenses] = useState([]);
-  const [healthExpenses,setHealthExpenses] = useState([]);
+  const [dues, setDues] = useState([]);
+  const [finance_stewardships, setFinance_stewardships] = useState([]);
+  const [decorationExpenses, setDecorationExpenses] = useState([]);
+  const [healthExpenses, setHealthExpenses] = useState([]);
   const [departmentExpenses, setDepartmentExpenses] = useState([{}]);
- 
+
   const [monthError, setMonthError] = useState("");
-  const [nameError, setNameError] = useState('')
+  const [nameError, setNameError] = useState("");
   const [display, setDisplay] = useState("hide");
   const navigate = useNavigate();
 
@@ -60,13 +60,11 @@ export default function Report() {
     const storedIncome = JSON.parse(localStorage.getItem("incomes")) || [];
     const storedExpense = JSON.parse(localStorage.getItem("expenses")) || [];
     const storedUser =
-    JSON.parse(localStorage.getItem("ebcfinance-user")) || null;
-  
+      JSON.parse(localStorage.getItem("ebcfinance-user")) || null;
+
     setIncomes(storedIncome);
     setExpenses(storedExpense);
     setUser(storedUser);
-
-    
 
     const thisMonthIncome = incomes.filter(function (item) {
       return item.month === form.month;
@@ -89,22 +87,20 @@ export default function Report() {
     setTotalIncome(totalIncome);
     setTotalExpenses(totalExpenses);
     setTotalBalance(totalIncome - totalExpenses);
-    setForm({...form,name:user?.displayName})
+    setForm({ ...form, name: user?.displayName });
   }, [form.month]);
 
   const handlePreviewReport = () => {
-    if (form.month === "" )  {
+    if (form.month === "") {
       setMonthError("Please select month");
-   
+
       return;
     }
 
-    if (form.name === "")  {
-     setForm({...form,name:user?.displayName})
-    
+    if (form.name === "") {
+      setForm({ ...form, name: user?.displayName });
     }
 
-   
     const filterExpensesByName = (name) =>
       expensesByMonth?.filter((item) => item?.expensesCategory === name);
     setElectricalExpenses(filterExpensesByName("Electrical Department"));
@@ -117,7 +113,9 @@ export default function Report() {
     setSanitationExpenses(filterExpensesByName("Sanitation Committee")); //
     setSoundExpenses(filterExpensesByName("Sound Department")); //
     setHealthExpenses(filterExpensesByName("Health Department")); //
-    setFinance_stewardships(filterExpensesByName("Finance Stewardships Committee")); //
+    setFinance_stewardships(
+      filterExpensesByName("Finance Stewardships Committee")
+    ); //
     setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
     setGeneratorExpenses(filterExpensesByName("Generator Department")); //
     setDues(filterExpensesByName("Dues Committee")); //
@@ -201,7 +199,7 @@ export default function Report() {
               handleSetForm(e);
             }}
           ></input>
-           <p style={{ color: "red" }}>{nameError}</p>
+          <p style={{ color: "red" }}>{nameError}</p>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <label htmlFor="title">Enter Title</label>
@@ -214,11 +212,9 @@ export default function Report() {
             }}
           ></textarea>
         </div>
-
-   
       </form>
 
-      <section className={`${display} pdf-preview-cx`}>
+      {/* <section className={`${display} pdf-preview-cx`}>
         <PdfGenerator
           incomes={incomeByMonth}
           form={form}
@@ -244,23 +240,40 @@ export default function Report() {
           
           setDisplay={setDisplay}
         />
-        {/* <PDFViewer width='100%' height='100%'>
-          <MyDocument
-            counterExpenses={counterExpenses}
-            buildingExpenses={buildingExpenses}
-            electricalExpenses={electricalExpenses}
-            income={incomeByMonth}
-            form={form}
-            setDisplay={setDisplay}
-            handleSetDisplay={handleSetDisplay}
-          />
-        </PDFViewer> */}    
+
+       
+      </section> */}
+      <section  className={`${display} pdf-preview-cx`}>
+      <MyDocument
+          counterExpenses={counterExpenses}
+          buildingExpenses={buildingExpenses}
+          electricalExpenses={electricalExpenses}
+          income={incomeByMonth}
+          form={form}
+          setDisplay={setDisplay}
+          handleSetDisplay={handleSetDisplay}
+        />
+        <PDFDownloadLink
+          document={
+            <MyDocument
+              counterExpenses={counterExpenses}
+              buildingExpenses={buildingExpenses}
+              electricalExpenses={electricalExpenses}
+              income={incomeByMonth}
+              form={form}
+              setDisplay={setDisplay}
+          handleSetDisplay={handleSetDisplay}
+            />
+          }
+          fileName="generated"
+        >
+          Download
+        </PDFDownloadLink>
       </section>
 
       <button onClick={handlePreviewReport} className="pdf-preview-btn">
         Preview
       </button>
-    
     </main>
   );
 }

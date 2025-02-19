@@ -59,8 +59,7 @@ function AddIncome() {
     set_Date(new Date(Date.now()).toISOString().split("T")[0]);
     setUser(JSON.parse(localStorage.getItem("ebcfinance-user")));
 
-    if (id) {
-    }
+    
   }, [id]);
 
   useEffect(() => {
