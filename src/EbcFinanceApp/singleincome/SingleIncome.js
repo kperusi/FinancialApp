@@ -70,7 +70,8 @@ export default function SingleIncome() {
             "incomes",
             JSON.stringify(updatedIncomesAfterDelete)
           );
-          navigate("/ebcfinance/views/income");
+          // navigate("/ebcfinance/views/income");
+          // navigate(-1);
           console.log("items deleted successfully");
         })
         .catch((err) => console.log(err));
@@ -80,13 +81,17 @@ export default function SingleIncome() {
       console.log("deleting expenses");
       await deleteDoc(doc(db, "Expenses", id))
         .then(() => {
-          navigate("/ebcfinance/views/expenses");
+          // navigate("/ebcfinance/views/expenses");
+         
           console.log("items deleted successfully");
         })
         .catch((err) => console.log(err));
     } catch (error) {
       console.log(error);
     }
+
+
+    navigate(-1);
   };
 
   const handleEditingNavigation=(id)=>{

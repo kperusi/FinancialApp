@@ -19,7 +19,7 @@ import {
 
 import { signOut } from "firebase/auth";
 import naira from "../../images/naira.png";
-import { json, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 export default function Dashboard() {
   const [user, setUser] = useState();
   const [expenses, setExpenses] = useState([]);
@@ -132,7 +132,7 @@ export default function Dashboard() {
     setTotalIncome(totalIncome);
     setTotalExpenses(totalExpenses);
     setTotalBalance(totalIncome - totalExpenses);
-  }, [user]);
+  }, []);
 
   console.log(loginUserDetail?.role);
 
@@ -268,7 +268,7 @@ export default function Dashboard() {
           }}
         >
           <h1>Recent Income</h1>
-          <NavLink to="/ebcfinance/views/income">All</NavLink>
+          <NavLink to="/ebcfinance/views/income">View All</NavLink>
         </div>
 
         <div className="income-title">
@@ -320,7 +320,7 @@ export default function Dashboard() {
           }}
         >
           <h1>Recent Expenses</h1>
-          <NavLink to="/ebcfinance/views/expenses">All</NavLink>
+          <NavLink to="/ebcfinance/views/expenses">View All</NavLink>
         </div>
         <div className="income-title">
           {expenses.slice(0, 3).map((expense, i) => (
