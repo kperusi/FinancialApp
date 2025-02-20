@@ -31,6 +31,7 @@ export default function PdfGenerator({
 }) {
   const contentRef = useRef(); // Reference for the content to be captured
   const incomeRef = useRef(); // Reference for the income
+  const expensesPage2Ref = useRef();
   const currentDate = new Date("01/01/2025");
   const navigate = useNavigate();
   let currentMonthName = currentDate.toLocaleDateString("en-US", {
@@ -65,9 +66,23 @@ export default function PdfGenerator({
   };
   //  console.log(incomes)
 
+  const generatorExpensesPage2 = async () => {
+    const content = expensesPage2Ref.current;
+    const canvas = await html2canvas(content);
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("p", "mm", "a4"); // Create a new A4 PDF
+    const imgWidth = 190; // Adjust for margins
+    const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+    pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+    pdf.save(`Ebc Financial Report for ${form.month} --page 3`);
+  };
+
   const downloadPdf = () => {
     generatePDF();
     generateIncomeReport();
+    generatorExpensesPage2(); // Add additional pages for other expenses here
   };
 
   return (
@@ -126,28 +141,30 @@ export default function PdfGenerator({
           <h2 className="document-total-income-amount">{totalIncome}</h2>
         </div>
       </section>
-      <div
+
+      <section
         ref={contentRef}
         className=" main bg-white p-4 border rounded shadow-md"
       >
-        {/* <h2 className="document-title text-xl font-bold">{form.title}</h2>
-        <section className="section-cx">
-          <h2>Income</h2>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h3 style={{ width: "60%" }}>Description</h3>
-            <hr></hr>
-            <h3>Amount (N)</h3>
-          </div>
-          <hr />
-          {incomes?.map((income) => (
-            <div key={income?.id} className="pdf-income-item">
-              <h3>{income?.incomeSource}</h3>
-              <p>{income?.amount}</p>
+        {electricalExpenses?.length > 0 && (
+          <section className="section-cx">
+            <h2>Electrical Expenses</h2>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
+              <hr></hr>
+              <h3 style={{ color: "grey" }}>Amount (N)</h3>
             </div>
-          ))}
-        </section> */}
+            <hr />
+            {electricalExpenses?.map((item) => (
+              <div key={item?.id} className="pdf-income-item">
+                <h3>{item?.desc}</h3>
+                <p>{item?.amount}</p>
+              </div>
+            ))}
+          </section>
+        )}
 
-        <section className="section-cx">
+        {/* <section className="section-cx">
           <h2>Electrical Expenses</h2>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
@@ -161,40 +178,49 @@ export default function PdfGenerator({
               <p>{item?.amount}</p>
             </div>
           ))}
-        </section>
+        </section> */}
 
-        <section className="section-cx">
-          <h2>Building Expenses</h2>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
-            <hr></hr>
-            <h3 style={{ color: "grey" }}>Amount (N)</h3>
-          </div>
-          <hr />
-          {buildingExpenses?.map((item) => (
-            <div key={item?.id} className="pdf-income-item">
-              <h3>{item?.desc}</h3>
-              <p>{item?.amount}</p>
+        {buildingExpenses.length > 0 && (
+          <section className="section-cx">
+            <h2>Building Expenses</h2>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
+              <hr></hr>
+              <h3 style={{ color: "grey" }}>Amount (N)</h3>
             </div>
-          ))}
-        </section>
+            <hr />
+            {buildingExpenses?.map((item) => (
+              <div key={item?.id} className="pdf-income-item">
+                <h3>{item?.desc}</h3>
+                <p>{item?.amount}</p>
+              </div>
+            ))}
+          </section>
+        )}
 
-        <section className="section-cx">
-          <h2>Counter Expenses</h2>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
-            <hr></hr>
-            <h3 style={{ color: "grey" }}>Amount (N)</h3>
-          </div>
-          <hr />
-          {counterExpenses?.map((item) => (
-            <div key={item?.id} className="pdf-income-item">
-              <h3>{item?.desc}</h3>
-              <p>{item?.amount}</p>
+        {counterExpenses?.length > 0 && (
+          <section className="section-cx">
+            <h2>Media Expenses</h2>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
+              <hr></hr>
+              <h3 style={{ color: "grey" }}>Amount (N)</h3>
             </div>
-          ))}
-        </section>
+            <hr />
+            {counterExpenses?.map((item) => (
+              <div key={item?.id} className="pdf-income-item">
+                <h3>{item?.desc}</h3>
+                <p>{item?.amount}</p>
+              </div>
+            ))}
+          </section>
+        )}
+      </section>
 
+      <section
+        ref={expensesPage2Ref}
+        className=" main bg-white p-4 border rounded shadow-md"
+      >
         {mediaExpenses.length > 0 && (
           <section className="section-cx">
             <h2>Media Expenses</h2>
@@ -270,30 +296,25 @@ export default function PdfGenerator({
           <h2 className="document-total-income-amount">{totalExpenses}</h2>
         </div>
 
+        <div>
+          <h2>Summary</h2>
+          <ul>
+            <li>
+              <strong>Total Income:</strong> {totalIncome}
+            </li>
+            <li>
+              <strong>Total Expenses:</strong> {totalExpenses}
+            </li>
+            <li>
+              <strong>Net Balance:</strong> {totalBalance}
+            </li>
+          </ul>
 
-<div>
-  <h2>Summary</h2>
-  <ul>
-    <li>
-      <strong>Total Income:</strong> {totalIncome}
-    </li>
-    <li>
-      <strong>Total Expenses:</strong> {totalExpenses}
-    </li>
-    <li>
-      <strong>Net Balance:</strong> {totalBalance}
-    </li>
-  </ul>
-
-  
-  <div className="signature-container">
-    <h2>{form.name}</h2>
-  </div>
-</div>
-
-
-
-      </div>
+          <div className="signature-container">
+            <h2>{form.name}</h2>
+          </div>
+        </div>
+      </section>
 
       <button onClick={downloadPdf} className="pdf-download-btn">
         Download PDF
