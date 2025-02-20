@@ -138,9 +138,9 @@ export default function Report() {
       setDisplay("hide");
     }
   };
-  console.log(form.name);
+  console.log(expenses);
 
-  console.log(user?.displayName);
+  console.log('>>',mediaExpenses);
   // console.log(display);
   return (
     <main className="main-report">
@@ -214,7 +214,7 @@ export default function Report() {
         </div>
       </form>
 
-      {/* <section className={`${display} pdf-preview-cx`}>
+      <section className={`${display} pdf-preview-cx`}>
         <PdfGenerator
           incomes={incomeByMonth}
           form={form}
@@ -242,34 +242,66 @@ export default function Report() {
         />
 
        
-      </section> */}
-      <section  className={`${display} pdf-preview-cx`}>
-      <MyDocument
-          counterExpenses={counterExpenses}
-          buildingExpenses={buildingExpenses}
-          electricalExpenses={electricalExpenses}
-          income={incomeByMonth}
+      </section>
+      {/* <section className={`${display} pdf-preview-cx`}>
+        <MyDocument
+          incomes={incomeByMonth}
           form={form}
+          expenses={expensesByMonth}
+          electricalExpenses={electricalExpenses}
+          buildingExpenses={buildingExpenses}
+          counterExpenses={counterExpenses}
+          mediaExpenses={mediaExpenses}
+          publicityExpenses={publicityExpenses}
+          musicExpenses={musicExpenses}
+          transportExpenses={transportExpenses}
+          sanitationExpenses={sanitationExpenses}
+          soundExpenses={soundExpenses}
+          healthExpenses={healthExpenses}
+          finance_stewardships={finance_stewardships}
+          decorationExpenses={decorationExpenses}
+          generatorExpenses={generatorExpenses}
+          dues={dues}
+          departmentExpenses={departmentExpenses}
+          totalIncome={totalIncome}
+          totalExpenses={totalExpenses}
           setDisplay={setDisplay}
           handleSetDisplay={handleSetDisplay}
         />
         <PDFDownloadLink
           document={
             <MyDocument
-              counterExpenses={counterExpenses}
-              buildingExpenses={buildingExpenses}
-              electricalExpenses={electricalExpenses}
-              income={incomeByMonth}
-              form={form}
+            incomes={incomeByMonth}
+            form={form}
+            expenses={expensesByMonth}
+            electricalExpenses={electricalExpenses}
+            buildingExpenses={buildingExpenses}
+            counterExpenses={counterExpenses}
+            mediaExpenses={mediaExpenses}
+            publicityExpenses={publicityExpenses}
+            musicExpenses={musicExpenses}
+            transportExpenses={transportExpenses}
+            sanitationExpenses={sanitationExpenses}
+            soundExpenses={soundExpenses}
+            healthExpenses={healthExpenses}
+            finance_stewardships={finance_stewardships}
+            decorationExpenses={decorationExpenses}
+            generatorExpenses={generatorExpenses}
+            dues={dues}
+            departmentExpenses={departmentExpenses}
+            totalIncome={totalIncome}
+            totalExpenses={totalExpenses}
               setDisplay={setDisplay}
-          handleSetDisplay={handleSetDisplay}
+              handleSetDisplay={handleSetDisplay}
             />
           }
           fileName="generated"
         >
-          Download
+         {({blob,url,loading,error})=>(loading ? 'loading' : 'download now')}
         </PDFDownloadLink>
-      </section>
+
+        <button onClick={handleSetDisplay} >Back</button>
+      </section> */}
 
       <button onClick={handlePreviewReport} className="pdf-preview-btn">
         Preview

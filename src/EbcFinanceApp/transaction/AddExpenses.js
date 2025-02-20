@@ -356,7 +356,7 @@ function AddExpenses() {
               value={form.expensesCategory}
               onChange={(e) => handleChange(e)}
             >
-              <option className="option" selected>
+              <option className="option">
                 Please Select a Department
               </option>
               <optgroup label="Department">

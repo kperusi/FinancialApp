@@ -148,7 +148,7 @@ export default function PdfGenerator({
         </section> */}
 
         <section className="section-cx">
-          <h2>Electrical Department Expenses</h2>
+          <h2>Electrical Expenses</h2>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
             <hr></hr>
@@ -164,7 +164,7 @@ export default function PdfGenerator({
         </section>
 
         <section className="section-cx">
-          <h2>Building Committee Expenses</h2>
+          <h2>Building Expenses</h2>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
             <hr></hr>
@@ -180,7 +180,7 @@ export default function PdfGenerator({
         </section>
 
         <section className="section-cx">
-          <h2>Counter Committee Expenses</h2>
+          <h2>Counter Expenses</h2>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
             <hr></hr>
@@ -197,7 +197,7 @@ export default function PdfGenerator({
 
         {mediaExpenses.length > 0 && (
           <section className="section-cx">
-            <h2>Media Department Expenses</h2>
+            <h2>Media Expenses</h2>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
               <hr></hr>
@@ -215,7 +215,7 @@ export default function PdfGenerator({
 
         {soundExpenses.length > 0 && (
           <section className="section-cx">
-            <h2>Sound Department Expenses</h2>
+            <h2>Sound Expenses</h2>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
               <hr></hr>
@@ -232,7 +232,7 @@ export default function PdfGenerator({
         )}
         {transportExpenses.length > 0 && (
           <section className="section-cx">
-            <h2>Transport Department Expenses</h2>
+            <h2>Transport Expenses</h2>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
               <hr></hr>
@@ -249,7 +249,7 @@ export default function PdfGenerator({
         )}
         {publicityExpenses.length > 0 && (
           <section className="section-cx">
-            <h2>Publicity Committee Expenses</h2>
+            <h2>Publicity Expenses</h2>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h3 style={{ width: "60%", color: "grey" }}>Description</h3>
               <hr></hr>

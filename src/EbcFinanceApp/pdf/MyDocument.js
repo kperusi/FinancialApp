@@ -4,77 +4,81 @@ import React from "react";
 const styles = StyleSheet.create({
   page: {
     display: "flex",
-    flexDirection: "column", 
-    backgroundColor: "lightblue",
-    // padding: 10,
-    
+    flexDirection: "column",
+    padding: 10,
   },
-  topSection:{
-    display: 'flex',
-    flexDirection:'column',
-    justifyContent:'space-between',
-
-    // border: '1px solid black',
-
+  topSection: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   section: {
-    display:'flex',
-    flexDirection:'row',
+    display: "flex",
+    flexDirection: "row",
     // margin: 10,
     // padding: 10,
     flexGrow: 1,
-    justifyContent:'space-between',
-  
-   
+    justifyContent: "space-between",
   },
   mainTitle: {
     fontSize: 24,
     marginBottom: 20,
-    textAlign:'center',
-    border:'solid'
+    textAlign: "center",
   },
   title: {
     fontSize: 24,
     // marginBottom: 20,
     // textAlign: "center",
   },
+  subTitle:{
+display:'flex',
+justifyContent:'space-between',
+borderBottom: '1px solid',
+  },
 });
+
 const MyDocument = ({
-  income,
-  setDisplay,
+  incomes,
   form,
   expenses,
   electricalExpenses,
   counterExpenses,
   buildingExpenses,
+  mediaExpenses,
+  soundExpenses,
+  transportExpenses,
+  publicityExpenses,
+  musicExpenses,
+  sanitationExpenses,
+  healthExpenses,
+  finance_stewardships,
+  decorationExpenses,
+  generatorExpenses,
+  dues,
+  departmentExpenses,
+  totalIncome,
+  totalExpenses,
+  totalBalance,
+  setDisplay,
+  // buildingExpenses,
   handleSetDisplay,
 }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <View  style={styles.section}
-        onClick={() => {
-          handleSetDisplay()
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24px"
-          viewBox="0 -960 960 960"
-          width="24px"
-          fill="darkblue"
-        >
-          <path d="M360-240 120-480l240-240 56 56-144 144h568v80H272l144 144-56 56Z" />
-        </svg>
-      </View>
+   
 
       <View style={styles.mainTitle}>
-        <Text >{form?.title}</Text>
+        <Text>{form?.title}</Text>
       </View>
 
-      <View style={styles.topSection} >
+      <View style={styles.topSection}>
         <Text style={styles.title}>Income</Text>
+        <View style={styles.subTitle}>
+          <Text>Description</Text>
+          <Text>Amount (N)</Text>
+        </View>
 
-        {income?.map((item) => (
+        {incomes?.map((item) => (
           <View key={item.id} style={styles.section}>
             <Text>{item.incomeSource}</Text>
             <Text>{item?.amount}</Text>
@@ -83,13 +87,13 @@ const MyDocument = ({
       </View>
 
       <View style={styles.topSection}>
-        <Text style={styles.title}>Electrical Department Expenses</Text>
-        <View>
+        <Text style={styles.title}>Electrical Expenses</Text>
+        <View style={styles.subTitle}>
           <Text>Description</Text>
-          {/* <hr></hr> */}
+
           <Text>Amount (N)</Text>
         </View>
-        {/* <hr /> */}
+
         {electricalExpenses?.map((item) => (
           <View key={item?.id} style={styles.section}>
             <Text>{item?.desc}</Text>
@@ -99,7 +103,12 @@ const MyDocument = ({
       </View>
 
       <View>
-        <Text style={styles.title}>Building Committee Expenses</Text>
+        <Text style={styles.title}>Building  Expenses</Text>
+        <View style={styles.subTitle}>
+          <Text>Description</Text>
+
+          <Text>Amount (N)</Text>
+        </View>
         {buildingExpenses?.map((item) => (
           <View key={item?.id} style={styles.section}>
             <Text>{item?.desc}</Text>
@@ -109,14 +118,62 @@ const MyDocument = ({
       </View>
 
       <View>
-        <Text style={{ fontSize: "1.4em" }}>Counter Committee Expenses</Text>
+        <Text style={{ fontSize: "1.4em" }}>Counter Expenses</Text>
         {counterExpenses?.map((item) => (
-          <View key={item?.id}>
+          <View key={item?.id} style={styles.section}>
             <Text>{item?.desc}</Text>
             <Text>{item?.amount}</Text>
           </View>
         ))}
       </View>
+      {mediaExpenses.length > 0 && (
+        <View>
+          <Text style={{ fontSize: "1.4em" }}>Media Expenses</Text>
+          <View style={styles.subTitle}>
+          <Text>Description</Text>
+          <Text>Amount (N)</Text>
+        </View>
+          {mediaExpenses?.map((item) => (
+            <View key={item?.id} style={styles.section}>
+              <Text>{item?.desc}</Text>
+              <Text>{item?.amount}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+
+      {soundExpenses.length > 0 && (
+        <View>
+          <Text style={{ fontSize: "1.4em" }}>Sound Expenses</Text>
+          <View style={styles.subTitle}>
+          <Text>Description</Text>
+          <Text>Amount (N)</Text>
+        </View>
+          {soundExpenses?.map((item) => (
+            <View key={item?.id} style={styles.section}>
+              <Text>{item?.desc}</Text>
+              <Text>{item?.amount}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+
+      {transportExpenses.length > 0 && (
+        <View>
+          <Text style={{ fontSize: "1.4em" }}>Transportation Expenses</Text>
+          <View style={styles.subTitle}>
+          <Text>Description</Text>
+
+          <Text>Amount (N)</Text>
+        </View>
+          {transportExpenses?.map((item) => (
+            <View key={item?.id} style={styles.section}>
+              <Text>{item?.desc}</Text>
+              <Text>{item?.amount}</Text>
+            </View>
+          ))}
+        </View>
+      )}
     </Page>
   </Document>
 );
