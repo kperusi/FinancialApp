@@ -5,35 +5,48 @@ const styles = StyleSheet.create({
   page: {
     display: "flex",
     flexDirection: "column",
-    padding: 10,
+    padding: 20,
+    flexGrow: 1,
+    gap: 20,
+    fontSize:25,
   },
-  topSection: {
+  subSection: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     justifyContent: "space-between",
   },
   section: {
     display: "flex",
-    flexDirection: "row",
-    // margin: 10,
-    // padding: 10,
-    flexGrow: 1,
+    flexDirection: "column",
     justifyContent: "space-between",
   },
   mainTitle: {
+    display: "flex",
+    flexDirection: "column",
     fontSize: 24,
     marginBottom: 20,
     textAlign: "center",
+    lineHeight: 1.2,
   },
   title: {
     fontSize: 24,
-    // marginBottom: 20,
-    // textAlign: "center",
   },
-  subTitle:{
-display:'flex',
-justifyContent:'space-between',
-borderBottom: '1px solid',
+  subTitle: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottom: "1px solid black",
+    marginBottom: 5,
+    marginTop: 20,
+    fontSize: 20,
+  },
+  heading: {
+    fontSize: 26,
+    lineHeight: 1.2,
+    textAlign:'center'
+  },
+  backBtn:{
+
   },
 });
 
@@ -41,140 +54,63 @@ const MyDocument = ({
   incomes,
   form,
   expenses,
-  electricalExpenses,
-  counterExpenses,
-  buildingExpenses,
-  mediaExpenses,
-  soundExpenses,
-  transportExpenses,
-  publicityExpenses,
-  musicExpenses,
-  sanitationExpenses,
-  healthExpenses,
-  finance_stewardships,
-  decorationExpenses,
-  generatorExpenses,
-  dues,
   departmentExpenses,
   totalIncome,
   totalExpenses,
   totalBalance,
   setDisplay,
-  // buildingExpenses,
   handleSetDisplay,
+  numberItems,
+  chunks,
 }) => (
   <Document>
-    <Page size="A4" style={styles.page}>
-   
-
-      <View style={styles.mainTitle}>
-        <Text>{form?.title}</Text>
-      </View>
-
-      <View style={styles.topSection}>
-        <Text style={styles.title}>Income</Text>
-        <View style={styles.subTitle}>
-          <Text>Description</Text>
-          <Text>Amount (N)</Text>
-        </View>
-
-        {incomes?.map((item) => (
-          <View key={item.id} style={styles.section}>
-            <Text>{item.incomeSource}</Text>
-            <Text>{item?.amount}</Text>
-          </View>
-        ))}
-      </View>
-
-      <View style={styles.topSection}>
-        <Text style={styles.title}>Electrical Expenses</Text>
-        <View style={styles.subTitle}>
-          <Text>Description</Text>
-
-          <Text>Amount (N)</Text>
-        </View>
-
-        {electricalExpenses?.map((item) => (
-          <View key={item?.id} style={styles.section}>
-            <Text>{item?.desc}</Text>
-            <Text>{item?.amount}</Text>
-          </View>
-        ))}
-      </View>
-
-      <View>
-        <Text style={styles.title}>Building  Expenses</Text>
-        <View style={styles.subTitle}>
-          <Text>Description</Text>
-
-          <Text>Amount (N)</Text>
-        </View>
-        {buildingExpenses?.map((item) => (
-          <View key={item?.id} style={styles.section}>
-            <Text>{item?.desc}</Text>
-            <Text>{item?.amount}</Text>
-          </View>
-        ))}
-      </View>
-
-      <View>
-        <Text style={{ fontSize: "1.4em" }}>Counter Expenses</Text>
-        {counterExpenses?.map((item) => (
-          <View key={item?.id} style={styles.section}>
-            <Text>{item?.desc}</Text>
-            <Text>{item?.amount}</Text>
-          </View>
-        ))}
-      </View>
-      {mediaExpenses.length > 0 && (
+  
+    {/* <View style={styles.backBtn}> <span
+        onClick={() => {
+          setDisplay("hide");
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#white"
+        >
+          <path d="M360-240 120-480l240-240 56 56-144 144h568v80H272l144 144-56 56Z" />
+        </svg>
+      </span></View> */}
+    {chunks.map((chunk) => (
+      <Page size="A4" style={styles.page}>
         <View>
-          <Text style={{ fontSize: "1.4em" }}>Media Expenses</Text>
-          <View style={styles.subTitle}>
-          <Text>Description</Text>
-          <Text>Amount (N)</Text>
-        </View>
-          {mediaExpenses?.map((item) => (
-            <View key={item?.id} style={styles.section}>
-              <Text>{item?.desc}</Text>
-              <Text>{item?.amount}</Text>
+          {chunk?.map((each, i) => (
+            <View key={i} style={styles.section}>
+              <Text style={styles.heading}>{each.heading}</Text>
+              {each.presentedBy && (
+                <Text style={styles.heading}>
+                  Presented By: {each.presentedBy}
+                </Text>
+              )}
+              {each.month && (
+                <Text style={styles.heading}>
+                  For the Month of {each.month}{" "}
+                  {new Date(Date.now()).getFullYear()}
+                </Text>
+              )}
+
+              {each.name && <Text style={styles.subTitle}>{each.name}</Text>}
+
+              {each?.items.map((each, i) => (
+                <View key={i} style={styles.subSection}>
+                  <Text> {each.incomeSource || each.desc}</Text>
+                  <Text>{each.amount}</Text>
+                </View>
+              ))}
             </View>
           ))}
         </View>
-      )}
-
-      {soundExpenses.length > 0 && (
-        <View>
-          <Text style={{ fontSize: "1.4em" }}>Sound Expenses</Text>
-          <View style={styles.subTitle}>
-          <Text>Description</Text>
-          <Text>Amount (N)</Text>
-        </View>
-          {soundExpenses?.map((item) => (
-            <View key={item?.id} style={styles.section}>
-              <Text>{item?.desc}</Text>
-              <Text>{item?.amount}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-
-      {transportExpenses.length > 0 && (
-        <View>
-          <Text style={{ fontSize: "1.4em" }}>Transportation Expenses</Text>
-          <View style={styles.subTitle}>
-          <Text>Description</Text>
-
-          <Text>Amount (N)</Text>
-        </View>
-          {transportExpenses?.map((item) => (
-            <View key={item?.id} style={styles.section}>
-              <Text>{item?.desc}</Text>
-              <Text>{item?.amount}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-    </Page>
+      </Page>
+    ))}
   </Document>
 );
 

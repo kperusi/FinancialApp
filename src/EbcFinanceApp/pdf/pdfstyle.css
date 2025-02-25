@@ -37,14 +37,33 @@
 }
 
 .pdf-download-btn {
+  display: flex;
   border: none;
   background-color: var(--Primary);
   color: white;
   width: 100%;
   padding: 15px;
-  font-size: 1.4em;
+  font-size: 1.1em;
   border-radius: 5px;
   margin-top: 70px;
+  text-align: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.pdf-download-back-btn {
+  display: flex;
+  border: solid var(--Primary);
+  background-color: transparent;
+  color: var(--Primary);
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1em;
+  border-radius: 5px;
+  margin-top: 70px;
+  text-align: center;
+  justify-content: center;
+  outline: none;
 }
 
 .document-total-income {

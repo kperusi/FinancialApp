@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import PdfGenerator from "../pdf/PdfGenerator";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import {
+  PDFDownloadLink,
+  PDFViewer,
+  Document,
+  Page,
+  View,
+  Text,
+  StyleSheet,
+} from "@react-pdf/renderer";
 import "./reportstyle/reportstyles.css";
 import { useNavigate } from "react-router-dom";
 import MyDocument from "../pdf/MyDocument";
+import PdfGenerator2 from "../pdf/PdfGenerator2";
 
 export default function Report() {
   const [expenses, setExpenses] = useState([]);
@@ -16,8 +25,7 @@ export default function Report() {
   const [month, setMonth] = useState("");
   const [user, setUser] = useState({});
   const [form, setForm] = useState({
-    title:
-      "Monthly Financial Report Presented to the Executive Members of Ebenezer Baptist Church, Enerhen",
+    desc: "Monthly Financial Report Presented to the Executive Members of Ebenezer Baptist Church, Enerhen",
     month: "",
     name: "",
     //  new Date(Date.now()).toLocaleDateString("en-US", { month: "long" }),
@@ -38,13 +46,16 @@ export default function Report() {
   const [finance_stewardships, setFinance_stewardships] = useState([]);
   const [decorationExpenses, setDecorationExpenses] = useState([]);
   const [healthExpenses, setHealthExpenses] = useState([]);
-  const [departmentExpenses, setDepartmentExpenses] = useState([{}]);
+  const [departmentExpenses, setDepartmentExpenses] = useState([]);
 
   const [monthError, setMonthError] = useState("");
   const [nameError, setNameError] = useState("");
   const [display, setDisplay] = useState("hide");
   const navigate = useNavigate();
+  const [numberItems, setNumberItems] = useState(0);
+  const [chunks, setChunks] = useState([]);
 
+  let allExpenses = [];
   const handleSetForm = (e) => {
     // e.preventDefault();
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -114,16 +125,11 @@ export default function Report() {
     setSoundExpenses(filterExpensesByName("Sound Department")); //
     setHealthExpenses(filterExpensesByName("Health Department")); //
     setFinance_stewardships(
-      filterExpensesByName("Finance Stewardships Committee")
+      filterExpensesByName("Finance/Stewardships Committee")
     ); //
     setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
     setGeneratorExpenses(filterExpensesByName("Generator Department")); //
-    setDues(filterExpensesByName("Dues Committee")); //
-
-    setDepartmentExpenses({
-      electricalExp: filterExpensesByName("Electrical Department"),
-      buildingExpenses: filterExpensesByName("Building Committee"),
-    });
+    setDues(filterExpensesByName("Associational Dues")); //
 
     if (display === "hide") {
       setDisplay("show");
@@ -138,10 +144,155 @@ export default function Report() {
       setDisplay("hide");
     }
   };
-  console.log(expenses);
 
-  console.log('>>',mediaExpenses);
-  // console.log(display);
+  useEffect(() => {
+    let itemCount = 0;
+    allExpenses.push({
+      presentedBy: form.name,
+      heading: form.desc,
+      month: form.month,
+      items: [],
+    });
+
+
+    if (incomeByMonth.length > 0) {
+      allExpenses.push({ heading: "", name: "Income", items: incomeByMonth });
+      itemCount += incomeByMonth.length;
+    }
+
+    // console.log(mediaExpenses);
+    if (electricalExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Electrical Expenses",
+        items: electricalExpenses,
+      });
+      itemCount += electricalExpenses.length;
+    }
+
+    if (transportExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Transportation Expenses",
+        items: transportExpenses,
+      });
+      itemCount += transportExpenses.length;
+    }
+
+    if (mediaExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Media Expenses",
+        items: mediaExpenses,
+      });
+      itemCount += mediaExpenses.length;
+    }
+    if (soundExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Sound Expenses",
+        items: soundExpenses,
+      });
+      itemCount += soundExpenses.length;
+    }
+    if (counterExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Counter Expenses",
+        items: counterExpenses,
+      });
+      itemCount += counterExpenses.length;
+    }
+    if (healthExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Health Expenses",
+        items: healthExpenses,
+      });
+      itemCount += healthExpenses.length;
+    }
+    if (buildingExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Building Expenses",
+        items: buildingExpenses,
+      });
+      itemCount += buildingExpenses.length;
+    }
+    if (publicityExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Publicity Expenses",
+        items: publicityExpenses,
+      });
+      itemCount += publicityExpenses.length;
+    }
+    if (dues.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Associational Dues Paid",
+        items: dues,
+      });
+      itemCount += dues.length;
+    }
+    if (decorationExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Decoration Expenses",
+        items: decorationExpenses,
+      });
+      itemCount += decorationExpenses.length;
+    }
+    if (generatorExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Generator Expenses",
+        items: generatorExpenses,
+      });
+      itemCount += generatorExpenses.length;
+    }
+    if (decorationExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Decoration Expenses",
+        items: decorationExpenses,
+      });
+      itemCount += decorationExpenses.length;
+    }
+    if (musicExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Music Expenses",
+        items: musicExpenses,
+      });
+      itemCount += musicExpenses.length;
+    }
+
+    allExpenses.push({
+      name: "summary",
+      items: [
+        { desc: "Income", amount: totalIncome },
+        { desc: "Expenses", amount: totalExpenses },
+        { desc: "Total Balance", amount: totalBalance },
+      ],
+    });
+    itemCount += 3;
+    setDepartmentExpenses(allExpenses);
+    setNumberItems(itemCount);
+ 
+  }, [publicityExpenses]);
+
+  useEffect(() => {
+    const itemsPerPage = 6;
+    const userChunks = [];
+    for (let i = 0; i < numberItems; i += itemsPerPage) {
+      userChunks.push(departmentExpenses.slice(i, i + itemsPerPage));
+    }
+    setChunks(userChunks);
+  }, [departmentExpenses]);
+
+  console.log(departmentExpenses);
+
   return (
     <main className="main-report">
       <div style={{ display: "flex", gap: "50px", padding: "5px 10px" }}>
@@ -204,9 +355,9 @@ export default function Report() {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <label htmlFor="title">Enter Title</label>
           <textarea
-            name="title"
+            name="desc"
             placeholder="Enter Title"
-            value={form.title}
+            value={form.desc}
             onInput={(e) => {
               handleSetForm(e);
             }}
@@ -215,7 +366,19 @@ export default function Report() {
       </form>
 
       <section className={`${display} pdf-preview-cx`}>
-        <PdfGenerator
+        {/* <PdfGenerator2
+          incomes={incomeByMonth}
+          form={form}
+          departmentExpenses={departmentExpenses}
+          totalIncome={totalIncome}
+          totalExpenses={totalExpenses}
+          totalBalance={totalBalance}
+          setDisplay={setDisplay}
+          handleSetDisplay={handleSetDisplay}
+          numberItems={numberItems}
+        /> */}
+
+        {/* <PdfGenerator
           incomes={incomeByMonth}
           form={form}
           expenses={expensesByMonth}
@@ -237,71 +400,52 @@ export default function Report() {
           totalIncome={totalIncome}
           totalExpenses={totalExpenses}
           totalBalance={totalBalance}
-          
           setDisplay={setDisplay}
-        />
-
-       
+        /> */}
       </section>
-      {/* <section className={`${display} pdf-preview-cx`}>
+
+      <section className={`${display} pdf-preview-cx`}>
         <MyDocument
           incomes={incomeByMonth}
           form={form}
-          expenses={expensesByMonth}
-          electricalExpenses={electricalExpenses}
-          buildingExpenses={buildingExpenses}
-          counterExpenses={counterExpenses}
-          mediaExpenses={mediaExpenses}
-          publicityExpenses={publicityExpenses}
-          musicExpenses={musicExpenses}
-          transportExpenses={transportExpenses}
-          sanitationExpenses={sanitationExpenses}
-          soundExpenses={soundExpenses}
-          healthExpenses={healthExpenses}
-          finance_stewardships={finance_stewardships}
-          decorationExpenses={decorationExpenses}
-          generatorExpenses={generatorExpenses}
-          dues={dues}
           departmentExpenses={departmentExpenses}
           totalIncome={totalIncome}
           totalExpenses={totalExpenses}
+          totalBalance={totalBalance}
           setDisplay={setDisplay}
           handleSetDisplay={handleSetDisplay}
+          numberItems={numberItems}
+          chunks={chunks}
         />
-        <PDFDownloadLink
-          document={
-            <MyDocument
-            incomes={incomeByMonth}
-            form={form}
-            expenses={expensesByMonth}
-            electricalExpenses={electricalExpenses}
-            buildingExpenses={buildingExpenses}
-            counterExpenses={counterExpenses}
-            mediaExpenses={mediaExpenses}
-            publicityExpenses={publicityExpenses}
-            musicExpenses={musicExpenses}
-            transportExpenses={transportExpenses}
-            sanitationExpenses={sanitationExpenses}
-            soundExpenses={soundExpenses}
-            healthExpenses={healthExpenses}
-            finance_stewardships={finance_stewardships}
-            decorationExpenses={decorationExpenses}
-            generatorExpenses={generatorExpenses}
-            dues={dues}
-            departmentExpenses={departmentExpenses}
-            totalIncome={totalIncome}
-            totalExpenses={totalExpenses}
-              setDisplay={setDisplay}
-              handleSetDisplay={handleSetDisplay}
-            />
-          }
-          fileName="generated"
-        >
-         {({blob,url,loading,error})=>(loading ? 'loading' : 'download now')}
-        </PDFDownloadLink>
 
-        <button onClick={handleSetDisplay} >Back</button>
-      </section> */}
+        <div style={{ display: "flex", gap: "10px", padding: "10px" }}>
+          <PDFDownloadLink
+            className="pdf-download-btn"
+            document={
+              <MyDocument
+                incomes={incomeByMonth}
+                form={form}
+                departmentExpenses={departmentExpenses}
+                totalIncome={totalIncome}
+                totalExpenses={totalExpenses}
+                totalBalance={totalBalance}
+                setDisplay={setDisplay}
+                handleSetDisplay={handleSetDisplay}
+                numberItems={numberItems}
+                chunks={chunks}
+              />
+            }
+            fileName={`ebc financial report ${form.month}`}
+          >
+            {({ blob, url, loading, error }) =>
+              loading ? "loading" : "Download Pdf"
+            }
+          </PDFDownloadLink>
+          <button onClick={handleSetDisplay} className="pdf-download-back-btn">
+            Back
+          </button>
+        </div>
+      </section>
 
       <button onClick={handlePreviewReport} className="pdf-preview-btn">
         Preview

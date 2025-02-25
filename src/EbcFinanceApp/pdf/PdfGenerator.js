@@ -32,6 +32,7 @@ export default function PdfGenerator({
   const contentRef = useRef(); // Reference for the content to be captured
   const incomeRef = useRef(); // Reference for the income
   const expensesPage2Ref = useRef();
+  const [pages,setPages]=useState()
   const currentDate = new Date("01/01/2025");
   const navigate = useNavigate();
   let currentMonthName = currentDate.toLocaleDateString("en-US", {
@@ -85,6 +86,7 @@ export default function PdfGenerator({
     generatorExpensesPage2(); // Add additional pages for other expenses here
   };
 
+  console.log(departmentExpenses)
   return (
     <main className="document">
       <span
@@ -147,6 +149,7 @@ export default function PdfGenerator({
         className=" main bg-white p-4 border rounded shadow-md"
       >
         {electricalExpenses?.length > 0 && (
+       
           <section className="section-cx">
             <h2>Electrical Expenses</h2>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
