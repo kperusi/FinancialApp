@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
 import "./transactionstyle/transactionstyles.css";
 export default function TransactionLayout() {
+
+  const {id}=useParams()
   const [selected, setSelected] = useState({
     income: "selected",
     expenses: "",
@@ -16,6 +18,7 @@ export default function TransactionLayout() {
     }
   };
 
+  console.log(id)
   return (
     <main className="layout">
       <section className="layout-nav-cx">

@@ -5,10 +5,10 @@ import "./pagesstyles/pagesstyle.css";
 export default function Page() {
   return (
     <main className="page-main">
-      <section className="page-header">
+      {/* <section className="page-header">
         <h4>EBCFinance</h4>
       
-      </section>
+      </section> */}
       <section className="navbar-cx">
         <Navbar />
       </section>

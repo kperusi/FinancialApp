@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./navbarstyles/navbaarstyles.css";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 function Navbar() {
+  const params = useParams()
   const toggle = useSelector((state) => state.data.toggle);
   const themeMode = useSelector((state) => state.data.themeMode);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(themeMode);
+  console.log(window.location.pathname);
   const [select, setSelect] = useState({
     dashboard: "",
     income: "",
@@ -37,7 +38,16 @@ function Navbar() {
 
   useEffect(()=>{
     setSelect({ dashboard: "select", income: "", expenses: "", report: "" });
+ if(window.location.pathname.includes('income')){
+  setSelect({ dashboard: "", income: "select", expenses: "", report: "" });
+
+ }
+ if(window.location.pathname.includes('expenses')){
+  setSelect({ dashboard: "", income: "", expenses: "select", report: "" });
+
+ }
   },[])
+
   return (
     <main className="mainnav">
       <div
