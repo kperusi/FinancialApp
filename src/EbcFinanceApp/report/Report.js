@@ -43,7 +43,12 @@ export default function Report() {
   const [sanitationExpenses, setSanitationExpenses] = useState([]);
   const [generatorExpenses, setGeneratorExpenses] = useState([]);
   const [dues, setDues] = useState([]);
+  const [assocationalDues, setAssocationalDues] = useState([]);
+  const [conferenceDues, setConferenceDues] = useState([]);
+  const [conventionDues, setConventionDues]=useState([])
+  const [otherExpenses, setOtherExpenses] = useState([]);
   const [finance_stewardships, setFinance_stewardships] = useState([]);
+  const[social_warfare, setSocial_warfare] = useState([]);
   const [decorationExpenses, setDecorationExpenses] = useState([]);
   const [healthExpenses, setHealthExpenses] = useState([]);
   const [departmentExpenses, setDepartmentExpenses] = useState([]);
@@ -127,6 +132,8 @@ export default function Report() {
     setFinance_stewardships(
       filterExpensesByName("Finance/Stewardships Committee")
     ); //
+    setSocial_warfare(filterExpensesByName("Social/Warfare Committee")); //
+    setAssocationalDues(filterExpensesByName("Associational Dues"))
     setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
     setGeneratorExpenses(filterExpensesByName("Generator Department")); //
     setDues(filterExpensesByName("Associational Dues")); //

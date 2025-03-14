@@ -424,6 +424,9 @@ function AddExpenses() {
                   Convention Dues
                 </option>
               </optgroup>
+              <option className="option" value="Others">
+                 Others
+                </option>
             </select>
             <p className="error">{categoryErrors}</p>
           </div>
