@@ -41,14 +41,15 @@ export default function Report() {
   const [musicExpenses, setMusicExpenses] = useState([]);
   const [transportExpenses, setTransportExpenses] = useState([]);
   const [sanitationExpenses, setSanitationExpenses] = useState([]);
+  const [salary,setSalary] = useState([]);
   const [generatorExpenses, setGeneratorExpenses] = useState([]);
   const [dues, setDues] = useState([]);
   const [assocationalDues, setAssocationalDues] = useState([]);
   const [conferenceDues, setConferenceDues] = useState([]);
-  const [conventionDues, setConventionDues]=useState([])
+  const [conventionDues, setConventionDues] = useState([]);
   const [otherExpenses, setOtherExpenses] = useState([]);
   const [finance_stewardships, setFinance_stewardships] = useState([]);
-  const[social_warfare, setSocial_warfare] = useState([]);
+  const [social_warfare, setSocial_warfare] = useState([]);
   const [decorationExpenses, setDecorationExpenses] = useState([]);
   const [healthExpenses, setHealthExpenses] = useState([]);
   const [departmentExpenses, setDepartmentExpenses] = useState([]);
@@ -133,10 +134,10 @@ export default function Report() {
       filterExpensesByName("Finance/Stewardships Committee")
     ); //
     setSocial_warfare(filterExpensesByName("Social/Warfare Committee")); //
-    setAssocationalDues(filterExpensesByName("Associational Dues"))
+    setAssocationalDues(filterExpensesByName("Associational Dues"));
     setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
     setGeneratorExpenses(filterExpensesByName("Generator Department")); //
-    setDues(filterExpensesByName("Associational Dues")); //
+   setSalary(filterExpensesByName("Salary")); //
 
     if (display === "hide") {
       setDisplay("show");
@@ -160,7 +161,6 @@ export default function Report() {
       month: form.month,
       items: [],
     });
-
 
     if (incomeByMonth.length > 0) {
       allExpenses.push({ heading: "", name: "Income", items: incomeByMonth });
@@ -234,13 +234,13 @@ export default function Report() {
       });
       itemCount += publicityExpenses.length;
     }
-    if (dues.length !== 0) {
+    if (assocationalDues.length !== 0) {
       allExpenses.push({
         heading: "",
         name: "Associational Dues Paid",
-        items: dues,
+        items: assocationalDues,
       });
-      itemCount += dues.length;
+      itemCount += assocationalDues.length;
     }
     if (decorationExpenses.length !== 0) {
       allExpenses.push({
@@ -286,7 +286,6 @@ export default function Report() {
     itemCount += 3;
     setDepartmentExpenses(allExpenses);
     setNumberItems(itemCount);
- 
   }, [publicityExpenses]);
 
   useEffect(() => {
