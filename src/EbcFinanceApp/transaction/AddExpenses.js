@@ -257,7 +257,7 @@ function AddExpenses() {
                 <h4>{id}</h4>
               </div>
 
-              <button onClick={() => navigate("/ebcfinance/views/expenses")}>
+              <button onClick={() => navigate(`/ebcfinance/expense/${id}`)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="30px"
