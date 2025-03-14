@@ -291,7 +291,7 @@ export default function Report() {
     setChunks(userChunks);
   }, [departmentExpenses]);
 
-  console.log(departmentExpenses);
+  console.log(incomeByMonth);
 
   return (
     <main className="main-report">

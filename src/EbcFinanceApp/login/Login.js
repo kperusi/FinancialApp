@@ -26,7 +26,7 @@ import {
 } from "firebase/firestore";
 
 import "./styles/loginstyles.css";
-import { connectStorageEmulator } from "firebase/storage";
+// import { connectStorageEmulator } from "firebase/storage";
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");

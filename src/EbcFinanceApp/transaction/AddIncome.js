@@ -30,13 +30,13 @@ function AddIncome() {
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState();
   const [singleIncome, setSingleIncome] = useState({});
- const [showConfirmation,setShowConfirmation] = useState(false)
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
 
   //  const [date, setDate]=useState()
 
   let date2 = new Date(Date.now());
-  console.log(date2.toDateString());
+  // console.log(date2.toDateString());
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (e.target.name === "amount") {
@@ -48,18 +48,29 @@ function AddIncome() {
     if (e.target.name === "income_type") {
       setSourceErrors("");
     }
+
+    if (e.target.name === "date") {
+      console.log("changing date");
+      setForm({
+        ...form,
+        date: e.target.value,
+        month: new Date(form.date).toLocaleDateString("en-US", {
+          month: "long",
+        }),
+      });
+    }
+    console.log('//',form)
   };
 
   const handleShowConfirmation = () => {
+    setShowConfirmation(!showConfirmation);
+  };
 
-    setShowConfirmation(!showConfirmation)
-  }
+// useEffect(()=>{},[])
 
   useEffect(() => {
     set_Date(new Date(Date.now()).toISOString().split("T")[0]);
     setUser(JSON.parse(localStorage.getItem("ebcfinance-user")));
-
-    
   }, [id]);
 
   useEffect(() => {
@@ -100,14 +111,9 @@ function AddIncome() {
       ...form,
     };
 
-    // Check date and update amount if needed
-    if (form.date === "") {
-      updatedForm.date = _date;
-    }
-
-    // Single setState call with all updates
-    setForm(updatedForm);
-
+    
+    
+    console.log(form);
     if (form.amount === "") {
       setAmountErrors("Please enter a valid amount");
       return;
@@ -149,13 +155,21 @@ function AddIncome() {
         incomeSource: form.income_source,
       });
     }
-    console.log(form);
+    // console.log(form);
     setLoading(false);
-    handleShowConfirmation()
-    setForm({ amount: "", date: "", desc: "",color:'' ,month:'',income_source:''});
+    handleShowConfirmation();
+    setForm({
+      ...form,
+      amount: "",
+      date: new Date(Date.now()).toISOString().split("T")[0],
+      desc: "",
+      // color: "",
+      month: new Date(Date.now()).toLocaleDateString("en-US", { month: "long" }),
+      income_source: "",
+    });
   };
 
-  console.log(showConfirmation);
+  // console.log(showConfirmation);
   return (
     <main className="addincome">
       <section>
@@ -187,9 +201,11 @@ function AddIncome() {
       </section>
       */}
 
-      {showConfirmation && <section className="confirmation-cx">
-        <Confirmation handleShowConfirmation={handleShowConfirmation}/>
-        </section>}
+      {showConfirmation && (
+        <section className="confirmation-cx">
+          <Confirmation handleShowConfirmation={handleShowConfirmation} />
+        </section>
+      )}
       <section>
         <form className="input-div-cx">
           <div className="input-cx income-amount-cx">
@@ -325,15 +341,13 @@ function AddIncome() {
           <hr />
 
           <section className="trx-save-btn-cx">
-           
-
             <button
               className="add-btn"
               onClick={(e) => {
                 handleSubmit(e);
               }}
             >
-             {loading? 'Saving':'Save'}
+              {loading ? "Saving" : "Save"}
             </button>
             {loading && (
               <div className="trx-loading">

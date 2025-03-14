@@ -65,6 +65,19 @@ function AddExpenses() {
     if (e.target.name === "givenBy") {
       setGivenByError("");
     }
+
+    if (e.target.name === "date") {
+      console.log("changing date");
+      setForm({
+        ...form,
+        date: e.target.value,
+        month: new Date(form.date).toLocaleDateString("en-US", {
+          month: "long",
+        }),
+      });
+    }
+
+
   };
 
   useEffect(() => {
@@ -202,14 +215,15 @@ function AddExpenses() {
     console.log(form);
     // fetchExpenses();
     setForm({
+      ...form,
       expensesCategory: "",
       amount: "",
-      date: "",
+      date: new Date(Date.now()).toISOString().split("T")[0],
       desc: "",
       givenBy: "",
-      color: "",
+      // color: "",
       MOD: "",
-      month: "",
+      month: new Date(Date.now()).toLocaleDateString("en-US", { month: "long" }),
     });
   };
 
@@ -401,6 +415,9 @@ function AddExpenses() {
                 </option>
                 <option className="option" value="Sound Department">
                   Sound Department
+                </option>
+                <option className="option" value=" Social/Warfare Committee">
+                  Social/Warfare Committee
                 </option>
               </optgroup>
               <optgroup label="Dues">
