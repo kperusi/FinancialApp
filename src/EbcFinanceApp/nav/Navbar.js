@@ -3,38 +3,39 @@ import "./navbarstyles/navbaarstyles.css";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
-function Navbar() {
+function Navbar({setSelect,select,handleSelected}) {
   const params = useParams()
   const toggle = useSelector((state) => state.data.toggle);
   const themeMode = useSelector((state) => state.data.themeMode);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(window.location.pathname);
-  const [select, setSelect] = useState({
-    dashboard: "",
-    income: "",
-    expenses: "",
-    report: "",
-  });
+  // const [select, setSelect] = useState({
+  //   dashboard: "",
+  //   income: "",
+  //   expenses: "",
+  //   report: "",
+  // });
 
-  const handleSelected = (name) => {
-    if (name === "dashboard") {
-      setSelect({ dashboard: "select", income: "", expenses: "", report: "" });
-    }
+  // const handleSelected = (name) => {
+  //   if (name === "dashboard") {
+  //     setSelect({ dashboard: "select", income: "", expenses: "", report: "" });
+  //   }
 
-    if (name === "income") {
-      setSelect({ dashboard: "", income: "select", expenses: "", report: "" });
-    }
+  //   if (name === "income") {
+  //     setSelect({ dashboard: "", income: "select", expenses: "", report: "" });
+  //   }
 
-    if (name === "expenses") {
-      setSelect({ dashboard: "", income: "", expenses: "select", report: "" });
-    }
+  //   if (name === "expenses") {
+  //     setSelect({ dashboard: "", income: "", expenses: "select", report: "" });
+  //   }
 
-    if (name === "report") {
-      setSelect({ dashboard: "", income: "", expenses: "", report: "select" });
-    }
-  };
+  //   if (name === "report") {
+  //     setSelect({ dashboard: "", income: "", expenses: "", report: "select" });
+  //   }
+  // };
 
+  // console.log(select)
 
   useEffect(()=>{
     setSelect({ dashboard: "select", income: "", expenses: "", report: "" });
@@ -52,7 +53,7 @@ function Navbar() {
     <main className="mainnav">
       <div
         className={`navbar-item-cx ${select.dashboard}`}
-        onClick={() => handleSelected("dashboard")}
+        onClick={() => setSelect({ dashboard: "select", income: "", expenses: ""})}
       >
         <NavLink
           to="/ebcfinance/views"
@@ -74,7 +75,7 @@ function Navbar() {
 
       <div
         className={`navbar-item-cx ${select.income}`}
-        onClick={() => handleSelected("income")}
+        onClick={() => setSelect({dashboard:'', income:'select',expenses:'',report:''})}
       >
         <NavLink to="/ebcfinance/views/income" className="navlink">
           <svg
@@ -91,7 +92,7 @@ function Navbar() {
       </div>
 
       <div      className={`navbar-item-cx ${select.expenses}`}
-        onClick={() => handleSelected("expenses")}>
+        onClick={() => setSelect({dashboard:'', income:'',expenses:'select',report:''})}>
         <NavLink to="expenses" className="navlink">
           <svg
             xmlns="http://www.w3.org/2000/svg"

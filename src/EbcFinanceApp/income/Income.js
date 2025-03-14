@@ -45,7 +45,7 @@ export default function Income() {
       setMouseEnter("");
     }
   };
-  console.log(incomes);
+  // console.log(incomes);
   return (
     <main className="income-main">
        {loginUserDetail?.role === "admin" && (

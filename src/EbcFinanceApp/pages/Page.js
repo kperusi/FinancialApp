@@ -2,15 +2,12 @@ import React from "react";
 import Navbar from "../nav/Navbar";
 import { Outlet } from "react-router-dom";
 import "./pagesstyles/pagesstyle.css";
-export default function Page() {
+export default function Page({select,setSelect}) {
   return (
     <main className="page-main">
-      {/* <section className="page-header">
-        <h4>EBCFinance</h4>
-      
-      </section> */}
+   
       <section className="navbar-cx">
-        <Navbar />
+        <Navbar select={select} setSelect={setSelect}  />
       </section>
 
 

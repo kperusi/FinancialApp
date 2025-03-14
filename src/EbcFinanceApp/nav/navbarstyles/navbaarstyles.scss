@@ -1,10 +1,14 @@
 .mainnav {
   position: relative;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  border-radius: 5px;
+  // border-radius: 5px;
   padding: 5px 20px;
   width: 100%;
+  border-top: solid 1px grey;
+  // border: solid;
+  // box-shadow: 0px -2px 2px -1px black;
 }
 .navbar-item-cx {
   display: flex;
@@ -35,8 +39,7 @@ svg{
   background-color: darkblue;
   color: white;
   padding: 5px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+ border-radius: 5px;
 }
 .select h5{
   color: white;

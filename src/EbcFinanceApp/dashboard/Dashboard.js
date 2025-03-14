@@ -3,24 +3,16 @@ import React, { useEffect, useState } from "react";
 import "./dashboardstyles/dashboardstyles.css";
 import { db, auth } from "../firebase/firebase";
 import {
-  arrayUnion,
   collection,
-  doc,
-  increment,
   onSnapshot,
   orderBy,
   query,
-  updateDoc,
-  setDoc,
-  Timestamp,
-  where,
-  getDoc,
+
 } from "firebase/firestore";
 
 import { signOut } from "firebase/auth";
-import naira from "../../images/naira.png";
 import { NavLink } from "react-router-dom";
-export default function Dashboard() {
+export default function Dashboard({handleSelected,select,setSelect}) {
   const [user, setUser] = useState();
   const [expenses, setExpenses] = useState([]);
   const [incomes, setIncomes] = useState([]);
@@ -34,6 +26,9 @@ export default function Dashboard() {
   const [loginUserDetail, setLoginUserDetail] = useState({});
   const [mouseEnter, setMouseEnter] = useState("");
 
+  console.log(select)
+
+  
   useEffect(() => {
     // try {
     //   const loginUserDetailsRef = collection(db, "users");
@@ -268,7 +263,7 @@ export default function Dashboard() {
           }}
         >
           <h1>Recent Income</h1>
-          <NavLink to="/ebcfinance/views/income">View All</NavLink>
+          <NavLink to="/ebcfinance/views/income" onClick={()=>setSelect({dashboard:'', income:'select',expenses:'',report:''})}>View All</NavLink>
         </div>
 
         <div className="income-title">
@@ -320,7 +315,7 @@ export default function Dashboard() {
           }}
         >
           <h1>Recent Expenses</h1>
-          <NavLink to="/ebcfinance/views/expenses">View All</NavLink>
+          <NavLink to="/ebcfinance/views/expenses" onClick={()=>setSelect({dashboard:'', income:'',expenses:'select',report:''})}>View All</NavLink>
         </div>
         <div className="income-title">
           {expenses.slice(0, 3).map((expense, i) => (
