@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import naira from "../../images/naira.png";
 import "./incomestyles/incomestyles.css";
 import { useNavigate } from "react-router-dom";
 export default function Income() {
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState();
+  const [loginUserDetail, setLoginUserDetail] = useState({});
+    const [mouseEnter, setMouseEnter] = useState("");
   const navigate = useNavigate();
   const monthsArrAy = [
     "All",
@@ -22,9 +25,11 @@ export default function Income() {
   ];
   useEffect(() => {
     const storedIncome = JSON.parse(localStorage.getItem("incomes")) || [];
-
+    const storedUserDetails =
+    JSON.parse(localStorage.getItem("loginUserDetails")) || null;
     // Update state with retrieved values
     setIncomes(storedIncome);
+    setLoginUserDetail(storedUserDetails);
 
     const totalIncome = storedIncome.reduce(
       (sum, each) => sum + (each?.amount || 0),
@@ -33,10 +38,38 @@ export default function Income() {
     setTotalIncome(totalIncome);
     // setTotalExpenses(totalExpenses);
   }, []);
-
+  const handleMouseEnter = () => {
+    if (mouseEnter === "") {
+      setMouseEnter("mouseEnter");
+    } else {
+      setMouseEnter("");
+    }
+  };
   console.log(incomes);
   return (
     <main className="income-main">
+       {loginUserDetail?.role === "admin" && (
+        <section
+          className={`dashboard-add-transaction-cx ${mouseEnter}`}
+          onMouseEnter={handleMouseEnter}
+        >
+          {/* <div className="navbar-item-cx"> */}
+          <NavLink to="/ebcfinance/addtransactions" className="navlink">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="40px"
+              viewBox="0 -960 960 960"
+              width="40px"
+              fill="white"
+              style={{ fill: "white" }}
+            >
+              <path d="M446.67-446.67H200v-66.66h246.67V-760h66.66v246.67H760v66.66H513.33V-200h-66.66v-246.67Z" />
+            </svg>
+            {/* <h5>Transaction</h5> */}
+          </NavLink>
+          {/* </div> */}
+        </section>
+      )}
       <section className="income-main-month-title-cx">
         <div className="month-btn-cx">
           {monthsArrAy.slice(0, 4).map((month, i) => (

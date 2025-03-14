@@ -131,14 +131,7 @@ function AddExpenses() {
       ...form,
     };
 
-    if (form.date === "") {
-      updatedForm.date = _date;
-    }
-
-    // Single setState call with all updates
-
-    setForm(updatedForm);
-    console.log(updatedForm)
+  
 
     if (form.amount === "") {
       setAmountErrors("Please enter a valid amount");
