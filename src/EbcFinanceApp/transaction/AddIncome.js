@@ -300,6 +300,9 @@ function AddIncome() {
                 Main Offering/Tithes
               </option>
               <option className="option" value="Tithes">
+                Rent
+              </option>
+              <option className="option" value="Tithes">
                 Tithes
               </option>
               <option className="option" value="Mission Offering">
