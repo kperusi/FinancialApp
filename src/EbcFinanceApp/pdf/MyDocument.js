@@ -9,11 +9,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     gap: 20,
     fontSize:25,
+    fontFamily: "Helvetica",
   },
   subSection: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    fontSize:20,
   },
   section: {
     display: "flex",
@@ -43,7 +45,8 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 26,
     lineHeight: 1.2,
-    textAlign:'center'
+    textAlign:'center',
+    fontWeight:900,
   },
   backBtn:{
 
@@ -51,16 +54,7 @@ const styles = StyleSheet.create({
 });
 
 const MyDocument = ({
-  incomes,
-  form,
-  expenses,
-  departmentExpenses,
-  totalIncome,
-  totalExpenses,
-  totalBalance,
-  setDisplay,
-  handleSetDisplay,
-  numberItems,
+ 
   chunks,
 }) => (
   <Document>

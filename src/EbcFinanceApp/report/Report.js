@@ -41,8 +41,8 @@ export default function Report() {
   const [musicExpenses, setMusicExpenses] = useState([]);
   const [transportExpenses, setTransportExpenses] = useState([]);
   const [sanitationExpenses, setSanitationExpenses] = useState([]);
-  const [salary,setSalary] = useState([]);
-  const [cooperative,setCooperative]=useState([])
+  const [salary, setSalary] = useState([]);
+  const [cooperative, setCooperative] = useState([]);
   const [generatorExpenses, setGeneratorExpenses] = useState([]);
   const [dues, setDues] = useState([]);
   const [assocationalDues, setAssocationalDues] = useState([]);
@@ -54,8 +54,8 @@ export default function Report() {
   const [decorationExpenses, setDecorationExpenses] = useState([]);
   const [healthExpenses, setHealthExpenses] = useState([]);
   const [departmentExpenses, setDepartmentExpenses] = useState([]);
-  const [totalIncomeByMonth, setTotalIncomeByMont]=useState()
-
+  const [totalIncomeAmountThisMonth, setTotalIncomeAmountThisMonth] = useState();
+const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState();
   const [monthError, setMonthError] = useState("");
   const [nameError, setNameError] = useState("");
   const [display, setDisplay] = useState("hide");
@@ -86,21 +86,21 @@ export default function Report() {
     setUser(storedUser);
 
     const thisMonthIncome = incomes.filter(function (item) {
-      const date = new Date(item.date)
-      const month=date.toLocaleDateString("en-US", {
+      const date = new Date(item.date);
+      const month = date.toLocaleDateString("en-US", {
         month: "long",
-      })
-     
+      });
+
       return month === form.month;
     });
     setIncomeByMonth(thisMonthIncome);
 
     const thisMonthExpenses = expenses?.filter(function (item) {
-      const date = new Date(item.date)
-      const month=date.toLocaleDateString("en-US", {
+      const date = new Date(item.date);
+      const month = date.toLocaleDateString("en-US", {
         month: "long",
-      })
-     
+      });
+
       return month === form.month;
     });
     setExpensesByMonth(thisMonthExpenses);
@@ -113,6 +113,18 @@ export default function Report() {
       (sum, each) => sum + (each?.amount || 0),
       0
     );
+
+  
+      const addThisMonthIncome = thisMonthIncome.reduce(
+        (sum, each) => sum + (each?.amount || 0),0
+      );
+      setTotalIncomeAmountThisMonth(addThisMonthIncome);
+   
+      const addThisMonthExpenses = thisMonthExpenses.reduce(
+        (sum, each) => sum + (each?.amount || 0),0
+      );
+      setTotalExpensesAmountThisMonth(addThisMonthExpenses);
+
     setTotalIncome(totalIncome);
     setTotalExpenses(totalExpenses);
     setTotalBalance(totalIncome - totalExpenses);
@@ -149,10 +161,9 @@ export default function Report() {
     setAssocationalDues(filterExpensesByName("Associational Dues"));
     setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
     setGeneratorExpenses(filterExpensesByName("Generator Department")); //
-   setSalary(filterExpensesByName("Salary Payment")); //
-   setCooperative(filterExpensesByName('Cooperative Payment'))
-   setOtherExpenses(filterExpensesByName('Others'))
-
+    setSalary(filterExpensesByName("Salary Payment")); //
+    setCooperative(filterExpensesByName("Cooperative Payment"));
+    setOtherExpenses(filterExpensesByName("Others"));
 
     if (display === "hide") {
       setDisplay("show");
@@ -268,7 +279,7 @@ export default function Report() {
     if (conventionDues.length !== 0) {
       allExpenses.push({
         heading: "",
-        name:"conventionDues Dues Paid",
+        name: "conventionDues Dues Paid",
         items: conventionDues,
       });
       itemCount += conventionDues.length;
@@ -323,14 +334,42 @@ export default function Report() {
     }
 
     allExpenses.push({
-      name: "summary",
+      name: "This Month Summary",
       items: [
-        { desc: "Income", amount: totalIncome },
-        { desc: "Expenses", amount: totalExpenses },
+        { desc: "Monthly Income", amount: totalIncomeAmountThisMonth },
+        { desc: "Monthly Expenses", amount: totalExpensesAmountThisMonth },
+        { desc: "Monthly Balance", amount: totalIncomeAmountThisMonth-totalExpensesAmountThisMonth },
+        // { desc: "____________________________________________________", amount: '' },
+      
+      ],
+    });
+
+    allExpenses.push({
+      name: `Summary as at ${new Date(Date.now()).toDateString().split("T")[0]}`,
+      items: [
+       
+        { desc: "Total Income", amount: totalIncome },
+        { desc: "Total Expenses", amount: totalExpenses },
         { desc: "Total Balance", amount: totalBalance },
       ],
     });
-    itemCount += 3;
+
+    allExpenses.push({
+      name: "Sign",
+      items: [
+        { desc: "   ", amount: '    ' },
+        // { desc: "__________________________________ ", amount: '   '},
+
+        { desc: "Mr Kelvin A.", amount: ' ' },
+        { desc: "_______________", amount: '' },
+        { desc: "Mr Prosper Sodje.", amount: ' ' },
+        { desc: "_______________", amount: '' },
+       
+      ],
+    });
+
+
+    itemCount += 4;
     setDepartmentExpenses(allExpenses);
     setNumberItems(itemCount);
   }, [publicityExpenses]);
@@ -345,6 +384,7 @@ export default function Report() {
   }, [departmentExpenses]);
 
   console.log(incomeByMonth);
+  console.log(totalIncomeAmountThisMonth);
 
   return (
     <main className="main-report">
