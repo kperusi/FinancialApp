@@ -31,9 +31,31 @@ function AddIncome() {
   const [totalIncome, setTotalIncome] = useState();
   const [singleIncome, setSingleIncome] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
+ 
+ const[formatedNumber,setFormartedNumber]=useState()
   const navigate = useNavigate();
 
   //  const [date, setDate]=useState()
+
+  function formatNumber(number) {
+    // Remove all non-digit characters and convert to a string
+    let numStr = String(number).replace(/\D/g, '');
+
+    // Pad the number with leading zeros to ensure it's 12 digits long
+    numStr = numStr.padStart(12, '0');
+
+    // Split into groups of 3 digits and join with spaces
+    const formattedNumber = numStr.match(/.{1,3}/g).join(' ');
+
+    return formattedNumber;
+}
+
+
+  const CheckForLetters = (str)=>{
+    
+    return /[a-z]/i.test(str);
+
+}
 
   let date2 = new Date(Date.now());
   // console.log(date2.toDateString());
@@ -49,18 +71,20 @@ function AddIncome() {
       setSourceErrors("");
     }
 
-    if (e.target.name === "date") {
+    if (e.target.name === "amount") {
+      setFormartedNumber(formatNumber(e.target.value))
+      if (CheckForLetters(e.target.value)){
+        return
+      }
       console.log("changing date");
-      setForm({
-        ...form,
-        date: e.target.value,
-        month: new Date(form.date).toLocaleDateString("en-US", {
-          month: "long",
-        }),
-      });
+      // setForm({
+      //   ...form,
+      //   amount: formatted_card_number(e.target.value),
+       
+      // });
     }
-    console.log('//',form)
   };
+  console.log(formatedNumber)
 
   const handleShowConfirmation = () => {
     setShowConfirmation(!showConfirmation);

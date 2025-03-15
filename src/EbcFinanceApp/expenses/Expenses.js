@@ -45,7 +45,7 @@ export default function Expenses() {
       setMouseEnter("");
     }
   };
-  console.log(expenses);
+  // console.log(expenses);
   return (
     <main className="expense-main">
        {loginUserDetail?.role === "admin" && (

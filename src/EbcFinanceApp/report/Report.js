@@ -144,6 +144,7 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
 
     const filterExpensesByName = (name) =>
       expensesByMonth?.filter((item) => item?.expensesCategory === name);
+    
     setElectricalExpenses(filterExpensesByName("Electrical Department"));
     setBuildingExpenses(filterExpensesByName("Building Committee")); //
     setCounterExpenses(filterExpensesByName("Counter Committee")); //
@@ -155,13 +156,13 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
     setSoundExpenses(filterExpensesByName("Sound Department")); //
     setHealthExpenses(filterExpensesByName("Health Department")); //
     setFinance_stewardships(
-      filterExpensesByName("Finance/Stewardships Committee")
+      filterExpensesByName("Finance/Stewardship Committee")
     ); //
-    setSocial_warfare(filterExpensesByName("Social/Warfare Committee")); //
+    setSocial_warfare(filterExpensesByName(" Social/Warfare Committee")); //
     setAssocationalDues(filterExpensesByName("Associational Dues"));
     setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
     setGeneratorExpenses(filterExpensesByName("Generator Department")); //
-    setSalary(filterExpensesByName("Salary Payment")); //
+    setSalary(filterExpensesByName("Salary")); //
     setCooperative(filterExpensesByName("Cooperative Payment"));
     setOtherExpenses(filterExpensesByName("Others"));
 
@@ -178,6 +179,10 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
       setDisplay("hide");
     }
   };
+console.log(expensesByMonth)
+console.log(finance_stewardships)
+
+
 
   useEffect(() => {
     let itemCount = 0;
@@ -235,6 +240,14 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
         items: counterExpenses,
       });
       itemCount += counterExpenses.length;
+    }
+    if (finance_stewardships.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Finance/Stewardship Expenses",
+        items: finance_stewardships,
+      });
+      itemCount += finance_stewardships.length;
     }
     if (healthExpenses.length !== 0) {
       allExpenses.push({
@@ -331,6 +344,22 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
         items: musicExpenses,
       });
       itemCount += musicExpenses.length;
+    }
+    if (social_warfare.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Social/Warfare Expenses",
+        items: social_warfare,
+      });
+      itemCount += social_warfare.length;
+    }
+    if (otherExpenses.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Other Expenses",
+        items: otherExpenses,
+      });
+      itemCount += otherExpenses.length;
     }
 
     allExpenses.push({

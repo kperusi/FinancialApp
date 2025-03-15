@@ -9,7 +9,7 @@ function Navbar({setSelect,select,handleSelected}) {
   const themeMode = useSelector((state) => state.data.themeMode);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(window.location.pathname);
+  // console.log(window.location.pathname);
   // const [select, setSelect] = useState({
   //   dashboard: "",
   //   income: "",
