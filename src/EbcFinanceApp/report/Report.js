@@ -165,6 +165,8 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
     setSalary(filterExpensesByName("Salary")); //
     setCooperative(filterExpensesByName("Cooperative Payment"));
     setOtherExpenses(filterExpensesByName("Others"));
+    setConferenceDues(filterExpensesByName('Conference Dues'))
+    setConventionDues(filterExpensesByName("Convention Dues"))
 
     if (display === "hide") {
       setDisplay("show");
@@ -292,7 +294,7 @@ console.log(finance_stewardships)
     if (conventionDues.length !== 0) {
       allExpenses.push({
         heading: "",
-        name: "conventionDues Dues Paid",
+        name: "convention Dues Paid",
         items: conventionDues,
       });
       itemCount += conventionDues.length;
