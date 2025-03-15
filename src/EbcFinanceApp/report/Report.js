@@ -42,6 +42,7 @@ export default function Report() {
   const [transportExpenses, setTransportExpenses] = useState([]);
   const [sanitationExpenses, setSanitationExpenses] = useState([]);
   const [salary,setSalary] = useState([]);
+  const [cooperative,setCooperative]=useState([])
   const [generatorExpenses, setGeneratorExpenses] = useState([]);
   const [dues, setDues] = useState([]);
   const [assocationalDues, setAssocationalDues] = useState([]);
@@ -53,6 +54,7 @@ export default function Report() {
   const [decorationExpenses, setDecorationExpenses] = useState([]);
   const [healthExpenses, setHealthExpenses] = useState([]);
   const [departmentExpenses, setDepartmentExpenses] = useState([]);
+  const [totalIncomeByMonth, setTotalIncomeByMont]=useState()
 
   const [monthError, setMonthError] = useState("");
   const [nameError, setNameError] = useState("");
@@ -84,12 +86,22 @@ export default function Report() {
     setUser(storedUser);
 
     const thisMonthIncome = incomes.filter(function (item) {
-      return item.month === form.month;
+      const date = new Date(item.date)
+      const month=date.toLocaleDateString("en-US", {
+        month: "long",
+      })
+     
+      return month === form.month;
     });
     setIncomeByMonth(thisMonthIncome);
 
     const thisMonthExpenses = expenses?.filter(function (item) {
-      return item.month === form.month;
+      const date = new Date(item.date)
+      const month=date.toLocaleDateString("en-US", {
+        month: "long",
+      })
+     
+      return month === form.month;
     });
     setExpensesByMonth(thisMonthExpenses);
 
@@ -137,7 +149,10 @@ export default function Report() {
     setAssocationalDues(filterExpensesByName("Associational Dues"));
     setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
     setGeneratorExpenses(filterExpensesByName("Generator Department")); //
-   setSalary(filterExpensesByName("Salary")); //
+   setSalary(filterExpensesByName("Salary Payment")); //
+   setCooperative(filterExpensesByName('Cooperative Payment'))
+   setOtherExpenses(filterExpensesByName('Others'))
+
 
     if (display === "hide") {
       setDisplay("show");
@@ -241,6 +256,38 @@ export default function Report() {
         items: assocationalDues,
       });
       itemCount += assocationalDues.length;
+    }
+    if (conferenceDues.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Conference Dues Paid",
+        items: conferenceDues,
+      });
+      itemCount += conferenceDues.length;
+    }
+    if (conventionDues.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name:"conventionDues Dues Paid",
+        items: conventionDues,
+      });
+      itemCount += conventionDues.length;
+    }
+    if (salary.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Salaries Payments",
+        items: salary,
+      });
+      itemCount += salary.length;
+    }
+    if (cooperative.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Cooperative Payment",
+        items: cooperative,
+      });
+      itemCount += cooperative.length;
     }
     if (decorationExpenses.length !== 0) {
       allExpenses.push({

@@ -412,11 +412,14 @@ function AddExpenses() {
                 <option className="option" value=" Social/Warfare Committee">
                   Social/Warfare Committee
                 </option>
-                <option className="option" value="Salary">
-                  Salary
+                <option className="option" value="Salary Payment">
+                  Salary Payment
                 </option>
                 <option className="option" value="Allocation">
                   Allocation
+                </option>
+                <option className="option" value="Cooperative Payment">
+                 Cooperative Payment
                 </option>
               </optgroup>
               <optgroup label="Dues">
