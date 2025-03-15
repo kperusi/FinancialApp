@@ -375,7 +375,7 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
   }, [publicityExpenses]);
 
   useEffect(() => {
-    const itemsPerPage = 6;
+    const itemsPerPage = 5;
     const userChunks = [];
     for (let i = 0; i < numberItems; i += itemsPerPage) {
       userChunks.push(departmentExpenses.slice(i, i + itemsPerPage));

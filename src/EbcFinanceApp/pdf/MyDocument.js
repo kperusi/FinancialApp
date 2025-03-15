@@ -16,11 +16,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     fontSize:20,
+    
   },
   section: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    gap:4,
   },
   mainTitle: {
     display: "flex",
