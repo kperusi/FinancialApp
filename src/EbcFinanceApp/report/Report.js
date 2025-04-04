@@ -59,6 +59,7 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
   const [monthError, setMonthError] = useState("");
   const [nameError, setNameError] = useState("");
   const [display, setDisplay] = useState("hide");
+  const [allocation, setAllocation] = useState([])
   const navigate = useNavigate();
   const [numberItems, setNumberItems] = useState(0);
   const [chunks, setChunks] = useState([]);
@@ -162,11 +163,12 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
     setAssocationalDues(filterExpensesByName("Associational Dues"));
     setDecorationExpenses(filterExpensesByName("Decoration Committee")); //
     setGeneratorExpenses(filterExpensesByName("Generator Department")); //
-    setSalary(filterExpensesByName("Salary")); //
+    setSalary(filterExpensesByName("Salary Payment")); //
     setCooperative(filterExpensesByName("Cooperative Payment"));
     setOtherExpenses(filterExpensesByName("Others"));
     setConferenceDues(filterExpensesByName('Conference Dues'))
     setConventionDues(filterExpensesByName("Convention Dues"))
+    setAllocation(filterExpensesByName("Allocation"))
 
     if (display === "hide") {
       setDisplay("show");
@@ -314,6 +316,14 @@ console.log(finance_stewardships)
         items: cooperative,
       });
       itemCount += cooperative.length;
+    }
+    if (allocation.length !== 0) {
+      allExpenses.push({
+        heading: "",
+        name: "Allocations",
+        items: allocation,
+      });
+      itemCount += allocation.length;
     }
     if (decorationExpenses.length !== 0) {
       allExpenses.push({
@@ -489,44 +499,7 @@ console.log(finance_stewardships)
         </div>
       </form>
 
-      <section className={`${display} pdf-preview-cx`}>
-        {/* <PdfGenerator2
-          incomes={incomeByMonth}
-          form={form}
-          departmentExpenses={departmentExpenses}
-          totalIncome={totalIncome}
-          totalExpenses={totalExpenses}
-          totalBalance={totalBalance}
-          setDisplay={setDisplay}
-          handleSetDisplay={handleSetDisplay}
-          numberItems={numberItems}
-        /> */}
-
-        {/* <PdfGenerator
-          incomes={incomeByMonth}
-          form={form}
-          expenses={expensesByMonth}
-          electricalExpenses={electricalExpenses}
-          buildingExpenses={buildingExpenses}
-          counterExpenses={counterExpenses}
-          mediaExpenses={mediaExpenses}
-          publicityExpenses={publicityExpenses}
-          musicExpenses={musicExpenses}
-          transportExpenses={transportExpenses}
-          sanitationExpenses={sanitationExpenses}
-          soundExpenses={soundExpenses}
-          healthExpenses={healthExpenses}
-          finance_stewardships={finance_stewardships}
-          decorationExpenses={decorationExpenses}
-          generatorExpenses={generatorExpenses}
-          dues={dues}
-          departmentExpenses={departmentExpenses}
-          totalIncome={totalIncome}
-          totalExpenses={totalExpenses}
-          totalBalance={totalBalance}
-          setDisplay={setDisplay}
-        /> */}
-      </section>
+      
 
       <section className={`${display} pdf-preview-cx`}>
         <MyDocument

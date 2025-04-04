@@ -150,6 +150,15 @@ export default function Dashboard({handleSelected,select,setSelect}) {
 
   return (
     <main className="content-main">
+<section className="dashboard-logo">
+  <div>
+     <h1>AuditoR</h1>
+     <h4>Easy Control and See Your Finance</h4>
+  </div>
+ 
+</section>
+
+
       <section className="dashboard-title">
         <h3>{user?.displayName}</h3>
         <button onClick={handleLogout} className="logout">

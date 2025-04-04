@@ -78,9 +78,6 @@ export default function Login() {
       console.log(error.message);
     }
 
-
-
-
   try {
       const loginUserDetailsRef = collection(db, "users");
       const q = query(loginUserDetailsRef);
@@ -129,7 +126,7 @@ export default function Login() {
   return (
     <main className="login-main">
       <section className="hero">
-        <h1>EBCFinance</h1>
+        <h1>AuditoR</h1>
         <p>Login</p>
       </section>
 

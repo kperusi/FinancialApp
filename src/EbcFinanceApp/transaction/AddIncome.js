@@ -35,20 +35,16 @@ function AddIncome() {
  const[formatedNumber,setFormartedNumber]=useState()
   const navigate = useNavigate();
 
-  //  const [date, setDate]=useState()
+  const formatNumber = (values) => {
+    return values.replace(/\D/g, "") // Remove non-digit characters
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " "); // Add spaces every 3 digits
 
-  function formatNumber(number) {
-    // Remove all non-digit characters and convert to a string
-    let numStr = String(number).replace(/\D/g, '');
 
-    // Pad the number with leading zeros to ensure it's 12 digits long
-    numStr = numStr.padStart(12, '0');
 
-    // Split into groups of 3 digits and join with spaces
-    const formattedNumber = numStr.match(/.{1,3}/g).join(' ');
 
-    return formattedNumber;
-}
+    // return value.replace(/\D/g, "") // Remove non-digit characters
+                // .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 "); // Add spaces every 3 digits
+  };
 
 
   const CheckForLetters = (str)=>{
@@ -60,6 +56,16 @@ function AddIncome() {
   let date2 = new Date(Date.now());
   // console.log(date2.toDateString());
   const handleChange = (e) => {
+//  if (e.target.name === "amount") {
+//       setFormartedNumber(formatNumber(e.target.value))
+//       if (CheckForLetters(e.target.value)){
+//         return
+//       }
+//       console.log("changing date");
+    
+//     }
+
+
     setForm({ ...form, [e.target.name]: e.target.value });
     if (e.target.name === "amount") {
       setAmountErrors("");
@@ -71,20 +77,17 @@ function AddIncome() {
       setSourceErrors("");
     }
 
-    if (e.target.name === "amount") {
-      setFormartedNumber(formatNumber(e.target.value))
-      if (CheckForLetters(e.target.value)){
-        return
-      }
-      console.log("changing date");
-      // setForm({
-      //   ...form,
-      //   amount: formatted_card_number(e.target.value),
-       
-      // });
-    }
+    // if (e.target.name === "amount") {
+    //   setFormartedNumber(formatNumber(e.target.value))
+    //   if (CheckForLetters(e.target.value)){
+    //     return
+    //   }
+    //   console.log("changing date");
+    
+    // }
   };
-  console.log(formatedNumber)
+  // console.log(parseInt(formatedNumber?.replace(/,/g,''),10)+4)
+  
 
   const handleShowConfirmation = () => {
     setShowConfirmation(!showConfirmation);
@@ -256,6 +259,7 @@ function AddIncome() {
                 </svg>
               </h1>
               <input
+              style={{border:'none',outline:'none'}}
                 type="number"
                 name="amount"
                 id="income"

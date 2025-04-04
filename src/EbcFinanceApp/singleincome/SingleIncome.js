@@ -15,9 +15,10 @@ export default function SingleIncome() {
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState();
   const [singleIncome, setSingleIncome] = useState({});
-  const [title, setTitle] = useState("");
+  const [msg, setMsg] = useState("");
   const [expenses, setExpenses] = useState([]);
-   const [loginUserDetail, setLoginUserDetail] = useState();
+  const [loginUserDetail, setLoginUserDetail] = useState();
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -28,8 +29,9 @@ export default function SingleIncome() {
     const storedExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
     // Update state with retrieved values
     setExpenses(storedExpenses);
-    const storedUserDetails = JSON.parse(localStorage.getItem("loginUserDetails")) || null;
-    setLoginUserDetail(storedUserDetails)
+    const storedUserDetails =
+      JSON.parse(localStorage.getItem("loginUserDetails")) || null;
+    setLoginUserDetail(storedUserDetails);
     const totalIncome = storedIncome.reduce(
       (sum, each) => sum + (each?.amount || 0),
       0
@@ -57,121 +59,129 @@ export default function SingleIncome() {
 
   const handleDelete = async (id) => {
     // console.log(`delete ${id}`);
-    try {
-      console.log("deleting income");
-      await deleteDoc(doc(db, "Income", id))
-        .then(() => {
-          // Update local storage
-          const updatedIncomes = JSON.parse(localStorage.getItem("incomes"));
-          const updatedIncomesAfterDelete = updatedIncomes.filter(
-            (income) => income.id !== id
-          );
-          localStorage.setItem(
-            "incomes",
-            JSON.stringify(updatedIncomesAfterDelete)
-          );
-        
-          console.log("income deleted successfully");
-        })
-        .catch((err) => console.log(err));
-    } catch (error) {}
 
-    try {
-      console.log("deleting expenses");
-      await deleteDoc(doc(db, "Expenses", id))
-        .then(() => {
-          const updatedIncomes = JSON.parse(localStorage.getItem("expenses"));
-          const updatedIncomesAfterDelete = updatedIncomes.filter(
-            (expenses) => expenses.id !== id
-          );
-          localStorage.setItem(
-            "expenses",
-            JSON.stringify(updatedIncomesAfterDelete)
-          );
-         
-          console.log("expenses deleted successfully");
-        })
-        .catch((err) => console.log(err));
-    } catch (error) {
-      console.log(error);
+    if (singleIncome?.main === "Income") {
+      try {
+        console.log("deleting income");
+        setLoading(true);
+        await deleteDoc(doc(db, "Income", id))
+          .then(() => {
+            // Update local storage
+            const updatedIncomes = JSON.parse(localStorage.getItem("incomes"));
+            const updatedIncomesAfterDelete = updatedIncomes.filter(
+              (income) => income.id !== id
+            );
+            localStorage.setItem(
+              "incomes",
+              JSON.stringify(updatedIncomesAfterDelete)
+            );
+            setLoading(false);
+            console.log("income deleted successfully");
+          })
+          .catch((err) => console.log(err));
+      } catch (error) {}
+    } else if (singleIncome?.main === "Expenses") {
+      try {
+        console.log("deleting expenses");
+        setLoading(true);
+        await deleteDoc(doc(db, "Expenses", id))
+          .then(() => {
+            const updatedIncomes = JSON.parse(localStorage.getItem("expenses"));
+            const updatedIncomesAfterDelete = updatedIncomes.filter(
+              (expenses) => expenses.id !== id
+            );
+            localStorage.setItem(
+              "expenses",
+              JSON.stringify(updatedIncomesAfterDelete)
+            );
+            setLoading(false);
+            console.log("expenses deleted successfully");
+          })
+          .catch((err) => console.log(err));
+      } catch (error) {
+        console.log(error);
+      }
     }
-
 
     navigate(-1);
   };
 
-  const handleEditingNavigation=(id)=>{
-    if(singleIncome?.main==='Expenses'){
+  const handleEditingNavigation = (id) => {
+    if (singleIncome?.main === "Expenses") {
       navigate(`/ebcfinance/editingexpense/${id}`);
-
-    }
-    else if (singleIncome?.main==='Income'){
+    } else if (singleIncome?.main === "Income") {
       navigate(`/ebcfinance/editingincome/${id}`);
     }
-
-  }
-  const handleBackAfterEditing=()=>{
-    if(singleIncome?.main==='Expenses'){
+  };
+  const handleBackAfterEditing = () => {
+    if (singleIncome?.main === "Expenses") {
       navigate(`/ebcfinance/views/expenses`);
-
-    }
-    else if (singleIncome?.main==='Income'){
+    } else if (singleIncome?.main === "Income") {
       navigate(`/ebcfinance/views/income`);
     }
-  }
-
+  };
+  console.log(singleIncome);
   return (
     <main className="single-income">
+      {loading && (
+        <section className="del-loading-cx">
+          <div className="del-loading">
+            <h2>Delecting {SingleIncome?.main}</h2>
+          </div>
+        </section>
+      )}
+
       <section className="single-income-section-one">
         <div className="single-income-cancel-edit-del-btn-cx">
           <div className="single-income-cancel-btn-cx">
             <button onClick={() => handleBackAfterEditing()}>
-            <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#white"
-          >
-            <path d="M360-240 120-480l240-240 56 56-144 144h568v80H272l144 144-56 56Z" />
-          </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#white"
+              >
+                <path d="M360-240 120-480l240-240 56 56-144 144h568v80H272l144 144-56 56Z" />
+              </svg>
             </button>
           </div>
-          {loginUserDetail?.role==="admin" &&(<div className="single-income-edit-del-btn-cx">
-            <button
-              className="single-income-edit-btn"
-              onClick={() => {
-                // navigate(`/ebcfinance/editingincome/${id}`);
-                handleEditingNavigation(id);
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="30px"
-                viewBox="0 -960 960 960"
-                width="30px"
-                fill="#000000"
-                style={{ fill: `` }}
+          {loginUserDetail?.role === "admin" && (
+            <div className="single-income-edit-del-btn-cx">
+              <button
+                className="single-income-edit-btn"
+                onClick={() => {
+                  // navigate(`/ebcfinance/editingincome/${id}`);
+                  handleEditingNavigation(id);
+                }}
               >
-                <path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z" />
-              </svg>
-            </button>
-            <button
-              className="single-income-del-btn"
-              onClick={() => handleDelete(singleIncome.id)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="30px"
-                viewBox="0 -960 960 960"
-                width="30px"
-                fill="red"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="30px"
+                  viewBox="0 -960 960 960"
+                  width="30px"
+                  fill="#000000"
+                  style={{ fill: `` }}
+                >
+                  <path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z" />
+                </svg>
+              </button>
+              <button
+                className="single-income-del-btn"
+                onClick={() => handleDelete(singleIncome.id)}
               >
-                <path d="m366-299.33 114-115.34 114.67 115.34 50-50.67-114-115.33 114-115.34-50-50.66L480-516 366-631.33l-50.67 50.66L430-465.33 315.33-350 366-299.33ZM267.33-120q-27 0-46.83-19.83-19.83-19.84-19.83-46.84V-740H160v-66.67h192V-840h256v33.33h192V-740h-40.67v553.33q0 27-19.83 46.84Q719.67-120 692.67-120H267.33Zm425.34-620H267.33v553.33h425.34V-740Zm-425.34 0v553.33V-740Z" />
-              </svg>
-            </button>
-          </div>)}
-          
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="30px"
+                  viewBox="0 -960 960 960"
+                  width="30px"
+                  fill="red"
+                >
+                  <path d="m366-299.33 114-115.34 114.67 115.34 50-50.67-114-115.33 114-115.34-50-50.66L480-516 366-631.33l-50.67 50.66L430-465.33 315.33-350 366-299.33ZM267.33-120q-27 0-46.83-19.83-19.83-19.84-19.83-46.84V-740H160v-66.67h192V-840h256v33.33h192V-740h-40.67v553.33q0 27-19.83 46.84Q719.67-120 692.67-120H267.33Zm425.34-620H267.33v553.33h425.34V-740Zm-425.34 0v553.33V-740Z" />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
         <hr />
         <div className="single-income-title">
@@ -262,6 +272,14 @@ export default function SingleIncome() {
             <div>
               <h3>Given By: </h3>
               <h2>{singleIncome?.givenBy}</h2>
+              <hr />
+            </div>
+          )}
+
+          {singleIncome?.createdBy && (
+            <div>
+              <h3>Transaction Initiated By: </h3>
+              <h2>{singleIncome?.createdBy}</h2>
               <hr />
             </div>
           )}
