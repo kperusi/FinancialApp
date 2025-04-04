@@ -64,6 +64,8 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
   const [numberItems, setNumberItems] = useState(0);
   const [chunks, setChunks] = useState([]);
 
+  const balancebf= 1219033.01
+
   let allExpenses = [];
   const handleSetForm = (e) => {
     // e.preventDefault();
@@ -110,7 +112,7 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
       (sum, each) => sum + (each?.amount || 0),
       0
     );
-    const totalIncome = storedIncome.reduce(
+    const totalIncomes = storedIncome.reduce(
       (sum, each) => sum + (each?.amount || 0),
       0
     );
@@ -126,12 +128,16 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
       );
       setTotalExpensesAmountThisMonth(addThisMonthExpenses);
 
-    setTotalIncome(totalIncome);
+    setTotalIncome(totalIncomes);
+    
     setTotalExpenses(totalExpenses);
-    setTotalBalance(totalIncome - totalExpenses);
+    setTotalBalance((totalIncomes - totalExpenses).toFixed(2));
     setForm({ ...form, name: user?.displayName });
   }, [form.month]);
 
+
+  console.log(totalBalance)
+  console.log(totalIncome)
   const handlePreviewReport = () => {
     if (form.month === "") {
       setMonthError("Please select month");
@@ -183,8 +189,7 @@ const [totalExpensesAmountThisMonth, setTotalExpensesAmountThisMonth]=useState()
       setDisplay("hide");
     }
   };
-console.log(expensesByMonth)
-console.log(finance_stewardships)
+
 
 
 
@@ -199,6 +204,7 @@ console.log(finance_stewardships)
 
     if (incomeByMonth.length > 0) {
       allExpenses.push({ heading: "", name: "Income", items: incomeByMonth });
+      // allExpenses.push({ heading: "", name: "", items: balancebf})
       itemCount += incomeByMonth.length;
     }
 
@@ -513,6 +519,7 @@ console.log(finance_stewardships)
           handleSetDisplay={handleSetDisplay}
           numberItems={numberItems}
           chunks={chunks}
+       
         />
 
         <div style={{ display: "flex", gap: "10px", padding: "10px" }}>

@@ -300,6 +300,9 @@ function AddIncome() {
               onChange={(e) => handleChange(e)}
             >
               <option className="option">Please Select Income Source</option>
+              <option className="option" value="Balance b/f" selected>
+                Balance b/f
+              </option>
               <option className="option" value="Main Offfering" selected>
                 Main Offering/Tithes
               </option>

@@ -21,6 +21,11 @@ export const dataSlice = createSlice({
         darkThemeElement: "dark-mode-element",
       },
     },
+    balanceForward:[{
+      year:'2024',
+      amount:1069563.1
+    }],
+    month:[{}],
 
     toggle: false,
 
